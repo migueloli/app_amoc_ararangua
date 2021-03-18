@@ -1,0 +1,18 @@
+{
+    "id": 1,
+    "name": "Test",
+    "document": "123",
+    "email": "test@test.com",
+    "phone": "123456",
+    "zip": "123456",
+    "address": "Test",
+    "number": "123",
+    "neighborhood": "Test",
+    "city": "Test",
+    "state": "Test",
+    "is_worker": true,
+    "description": "Test",
+    "status": 0,
+    "cause": "Test",
+    "password": "Test"
+}
