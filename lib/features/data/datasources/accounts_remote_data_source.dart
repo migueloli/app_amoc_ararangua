@@ -1,6 +1,6 @@
 import '../models/account_model.dart';
 
-abstract class IAccountsRemoteDatasource {
+abstract class IAccountsRemoteDataSource {
 
   Future<List<AccountModel>> getListOfAccounts();
 

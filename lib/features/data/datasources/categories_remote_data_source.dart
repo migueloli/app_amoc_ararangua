@@ -1,6 +1,6 @@
 import '../models/category_model.dart';
 
-abstract class ICategoriesRemoteDatasource {
+abstract class ICategoriesRemoteDataSource {
 
   Future<List<CategoryModel>> getListOfCategories();
 

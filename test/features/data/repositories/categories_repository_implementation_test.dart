@@ -1,20 +1,20 @@
 import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/network/network_info.dart';
-import 'package:app_amoc_ararangua/features/data/datasources/categories_remote_datasource.dart';
+import 'package:app_amoc_ararangua/features/data/datasources/categories_remote_data_source.dart';
 import 'package:app_amoc_ararangua/features/data/models/category_model.dart';
 import 'package:app_amoc_ararangua/features/data/repositories/categories_repository_implementation.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCategoriesDatasource extends Mock implements ICategoriesRemoteDatasource {}
+class MockCategoriesDatasource extends Mock implements ICategoriesRemoteDataSource {}
 class MockNetworkInfo extends Mock implements INetworkInfo {}
 
 void main() {
 
   late CategoriesRepositoryImplementation repository;
-  late ICategoriesRemoteDatasource datasource;
+  late ICategoriesRemoteDataSource datasource;
   late INetworkInfo networkInfo;
 
   setUp(() {

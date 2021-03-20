@@ -5,11 +5,11 @@ import '../../../core/errors/failures.dart';
 import '../../../core/network/network_info.dart';
 import '../../domain/entities/account_entity.dart';
 import '../../domain/repositories/account_repository.dart';
-import '../datasources/accounts_remote_datasource.dart';
+import '../datasources/accounts_remote_data_source.dart';
 
 class AccountsRepositoryImplementation implements IAccountsRepository {
 
-  final IAccountsRemoteDatasource datasource;
+  final IAccountsRemoteDataSource datasource;
   final INetworkInfo networkInfo;
 
   AccountsRepositoryImplementation(this.datasource, this.networkInfo);

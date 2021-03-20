@@ -4,11 +4,11 @@ import '../../../core/errors/failures.dart';
 import '../../../core/network/network_info.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/categories_repository.dart';
-import '../datasources/categories_remote_datasource.dart';
+import '../datasources/categories_remote_data_source.dart';
 
 class CategoriesRepositoryImplementation implements ICategoriesRepository {
 
-  final ICategoriesRemoteDatasource datasource;
+  final ICategoriesRemoteDataSource datasource;
   final INetworkInfo networkInfo;
 
   CategoriesRepositoryImplementation(this.datasource, this.networkInfo);

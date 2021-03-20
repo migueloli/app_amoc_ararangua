@@ -1,20 +1,20 @@
 import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/network/network_info.dart';
-import 'package:app_amoc_ararangua/features/data/datasources/accounts_remote_datasource.dart';
+import 'package:app_amoc_ararangua/features/data/datasources/accounts_remote_data_source.dart';
 import 'package:app_amoc_ararangua/features/data/models/account_model.dart';
 import 'package:app_amoc_ararangua/features/data/repositories/accounts_repository_implementation.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAccountDatasource extends Mock implements IAccountsRemoteDatasource {}
+class MockAccountDatasource extends Mock implements IAccountsRemoteDataSource {}
 class MockNetworkInfo extends Mock implements INetworkInfo {}
 
 void main() {
 
   late AccountsRepositoryImplementation repository;
-  late IAccountsRemoteDatasource datasource;
+  late IAccountsRemoteDataSource datasource;
   late INetworkInfo networkInfo;
 
   setUp(() {
