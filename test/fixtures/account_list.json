@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Test 1",
+        "document": "123",
+        "email": "test1@test.com",
+        "phone": "123456",
+        "zip": "123456",
+        "address": "Test 1",
+        "number": "123",
+        "neighborhood": "Test 1",
+        "city": "Test 1",
+        "state": "Test 1",
+        "is_worker": true,
+        "description": "Test 1",
+        "status": 0,
+        "cause": "Test 1",
+        "password": "Test1"
+    },
+    {
+        "id": 2,
+        "name": "Test 2",
+        "document": "321",
+        "email": "test2@test.com",
+        "phone": "654321",
+        "zip": "654321",
+        "address": "Test",
+        "number": "321",
+        "neighborhood": "Test 2",
+        "city": "Test 2",
+        "state": "Test 2",
+        "is_worker": false,
+        "description": "Test 2",
+        "status": 1,
+        "cause": "Test 2",
+        "password": "Test2"
+    }
+]
