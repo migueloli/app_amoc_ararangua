@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
 import 'package:app_amoc_ararangua/features/data/datasources/categories_remote_data_source.dart';
 import 'package:app_amoc_ararangua/features/data/models/category_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../fixtures/fixture_reader.dart';

@@ -78,7 +78,4 @@ class AccountModel extends AccountEntity {
     'password': password,
   };
 
-  @override
-  List<Object?> get props => super.props..add(password);
-
 }

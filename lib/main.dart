@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-void main() => runApp(GetMaterialApp(
+void main() => runApp(MaterialApp(
   home: Container(),
 ));
