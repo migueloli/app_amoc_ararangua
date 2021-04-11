@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/core/states/bloc_state.dart';
-import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../core/errors/failures.dart';
+import '../../../../core/states/bloc_state.dart';
+import '../../../../core/usecases/usecase.dart';
+import '../../../domain/usecases/get_accounts_usecase.dart';
 
 part 'home_event.dart';
 
