@@ -53,9 +53,9 @@ class AccountModel extends AccountEntity {
       state: json['state'],
       isWorker: json['is_worker'],
       description: json['description'],
-      status: json['status'],
-      cause: json['cause'],
-      password: json['password'],
+      status: json['status'] ?? 1,
+      cause: json['cause'] ?? '',
+      password: json['password'] ?? '',
     );
   }
 
