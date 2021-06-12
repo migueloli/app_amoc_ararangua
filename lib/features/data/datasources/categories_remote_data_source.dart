@@ -19,7 +19,7 @@ class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSour
 
   @override
   Future<List<CategoryModel>> getListOfCategories() async {
-    final response = await dio.get('https://amoc-api.herokuapp.com/api/v1/category');
+    final response = await dio.get('category');
 
     if(response.statusCode == HttpStatus.ok) {
       final categoriesList = <CategoryModel>[];

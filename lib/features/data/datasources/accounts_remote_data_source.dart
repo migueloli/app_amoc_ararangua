@@ -21,7 +21,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
   @override
   Future<List<AccountModel>> getListOfAccounts() async {
-    final response = await dio.get('https://amoc-api.herokuapp.com/api/v1/user');
+    final response = await dio.get('user');
 
     if(response.statusCode == HttpStatus.ok) {
       final accountList = <AccountModel>[];
@@ -39,7 +39,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
   @override
   Future<AccountModel> saveAccount(AccountModel account) async {
     final response = await dio.post(
-      'https://amoc-api.herokuapp.com/api/v1/user',
+      'user',
       data: account.toJson(),
     );
 

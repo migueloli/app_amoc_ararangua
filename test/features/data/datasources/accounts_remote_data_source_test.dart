@@ -85,7 +85,7 @@ void main() {
           final result = await dataSource.getListOfAccounts();
 
           //Assert
-          verify(() => mockDio.get(url)).called(1);
+          verify(() => mockDio.get(any())).called(1);
           expect(result, tListOfAccounts);
         }
       );
@@ -110,7 +110,7 @@ void main() {
 
           //Assert
           expect(() => call(), throwsA(isA<ServerException>()));
-          verify(() => mockDio.get(url)).called(1);
+          verify(() => mockDio.get(any())).called(1);
         }
       );
     }
@@ -159,7 +159,7 @@ void main() {
           final result = await dataSource.saveAccount(tAccount);
 
           //Assert
-          verify(() => mockDio.post(url, data: tAccountJson)).called(1);
+          verify(() => mockDio.post(any(), data: any(named: 'data'))).called(1);
           expect(result, tAccount);
         }
       );
@@ -184,7 +184,7 @@ void main() {
 
           //Assert
           expect(() => call(tAccount), throwsA(isA<ServerException>()));
-          verify(() => mockDio.post(url, data: tAccountJson)).called(1);
+          verify(() => mockDio.post(any(), data: any(named: 'data'))).called(1);
         }
       );
     }

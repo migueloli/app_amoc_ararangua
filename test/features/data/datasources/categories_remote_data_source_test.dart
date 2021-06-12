@@ -51,7 +51,7 @@ void main() {
           final result = await dataSource.getListOfCategories();
 
           //Assert
-          verify(() => mockDio.get(url)).called(1);
+          verify(() => mockDio.get(any())).called(1);
           expect(result, tListOfCategories);
         }
       );
@@ -76,7 +76,7 @@ void main() {
 
           //Assert
           expect(() => call(), throwsA(isA<ServerException>()));
-          verify(() => mockDio.get(url)).called(1);
+          verify(() => mockDio.get(any())).called(1);
         }
       );
     }

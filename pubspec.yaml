@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
   dio: ^4.0.0-beta7
@@ -26,14 +26,17 @@ dependencies:
   dartz: ^0.10.0-nullsafety.1
   internet_connection_checker: ^0.0.1
   flutter_bloc: ^7.0.0
-  get_it: ^6.0.0
+  flutter_modular: ^3.1.0
   curved_splash_screen: ^1.0.0+1
   csc_picker: ^0.2.3
+  bottom_navy_bar: ^6.0.0
+  easy_dynamic_theme: ^2.0.0
+  kayta: ^1.0.2
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  mocktail: ^0.1.1
+  mocktail: ^0.1.4
   flutter_test:
     sdk: flutter
 
