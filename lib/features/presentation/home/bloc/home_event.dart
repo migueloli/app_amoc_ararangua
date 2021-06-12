@@ -4,7 +4,12 @@ abstract class HomeEvent extends Equatable {
   const HomeEvent();
 }
 
-class GetAccountsEvent extends HomeEvent {
+class PageControllerEvent extends HomeEvent {
+
+  final int page;
+
+  PageControllerEvent(this.page);
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [page];
 }
