@@ -1,20 +1,17 @@
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'injection_container.dart' as di;
+import 'package:flutter_modular/flutter_modular.dart';
 
-void main() async {
-  await di.init();
+import 'features/presentation/app/app_module.dart';
+import 'features/presentation/app/app_widget.dart';
 
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AMOC',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      home: Container(),
-    );
-  }
-}
+void main() =>
+  runApp(
+    EasyDynamicThemeWidget(
+      initialThemeMode: ThemeMode.system,
+      child: ModularApp(
+        module: AppModule(),
+        child: AppWidget(),
+      )
+    )
+  );
