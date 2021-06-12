@@ -3,12 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group(
-    'GetAccountsEvent',
+    'PageControllerEvent',
     () {
-      var event = GetAccountsEvent();
+      final page = 1;
+      var event = PageControllerEvent(page);
 
       test(
-        'test GetAccountsEvent is an extension of HomeEvent',
+        'test PageControllerEvent is an extension of HomeEvent',
         () {
           //Assert
           expect(event, isA<HomeEvent>());
@@ -16,10 +17,18 @@ void main() {
       );
 
       test(
-        'test props of GetAccountsEvent as an empty list',
+        'test page of PageControllerEvent as one(1)',
         () {
           //Assert
-          expect(event.props, []);
+          expect(event.page, page);
+        }
+      );
+
+      test(
+        'test props of PageControllerEvent as an empty list',
+        () {
+          //Assert
+          expect(event.props, [page]);
         }
       );
     }
