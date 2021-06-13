@@ -1,21 +1,30 @@
 import 'package:kayta/validators.dart';
 import 'package:kayta/extensions/string_extensions.dart';
 
-String? validateName(String? value) => value != null && value.trim().length > 8
+const INVALID_SHORT_NAME_MESSAGE = 'Nome precisa ter mais de 2 caracteres.';
+const INVALID_DOCUMENT_MESSAGE = 'CPF/CNPJ inválido.';
+const INVALID_PHONE_MESSAGE = 'Telefone inválido.';
+const INVALID_ZIP_CODE_MESSAGE = 'CEP inválido.';
+const INVALID_SHORT_ADDRESS_MESSAGE = 'Endereço precisa ter mais de 10 caracteres';
+const INVALID_SHORT_NEIGHBORHOOD_MESSAGE = 'Bairro precisa ter mais de 3 caracteres';
+const INVALID_EMAIL_MESSAGE = 'E-mail inválido';
+const INVALID_SHORT_PASSWORD_MESSAGE = 'Senha precisa ter 6 ou mais caracteres.';
+
+String? validateName(String? value) => value != null && value.trim().length >= 3
     ? null
-    : "Nome precisa ter mais de 8 caracteres.";
+    : INVALID_SHORT_NAME_MESSAGE;
 
 String? validateDocument(String? value) => value != null && (CPFValidator.isValid(value) || CNPJValidator.isValid(value))
     ? null
-    : "CPF/CNPJ inválido." ;
+    : INVALID_DOCUMENT_MESSAGE;
 
 String? validatePhone(String? value) =>
     value != null &&
     RegExp(
-      r'^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$'
+      r'^(?:(?:\+|00)?(55)\s?)?(?:(?:\(?[1-9][0-9]\)?)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$'
     ).hasMatch(
-      value.trim().replaceAll(RegExp(r'[^a-zA-Z 0-9]+'), '')
-    ) ? "Telefone inválido." : null;
+      value.trim()
+    ) ? null : INVALID_PHONE_MESSAGE;
 
 String? validateZip(String? value) =>
     value != null &&
@@ -23,24 +32,20 @@ String? validateZip(String? value) =>
       r'\d{2}.\d{3}-\d{3}'
     ).hasMatch(
       value.trim().replaceAll(RegExp(r'\s+'), '')
-    ) ? null : "CEP inválido.";
+    ) ? null : INVALID_ZIP_CODE_MESSAGE;
 
-String? validateAddress(String? value) => value != null && value.trim().length > 10
+String? validateAddress(String? value) => value != null && value.trim().length >= 6
     ? null
-    : "Endereço precisa ter mais de 10 caracteres";
+    : INVALID_SHORT_ADDRESS_MESSAGE;
 
-String? validateNeighborhood(String? value) => value != null && value.trim().length > 3
+String? validateNeighborhood(String? value) => value != null && value.trim().length >= 4
     ? null
-    : "Bairro precisa ter mais de 3 caracteres";
-
-String? validateCity(String? value) => value != null && value.trim().length > 3
-    ? null
-    : "Cidade precisa ter mais de 3 caracteres.";
+    : INVALID_SHORT_NEIGHBORHOOD_MESSAGE;
 
 String? validateEmail(String? value) => value.isValidEmail
     ? null
-    : 'E-mail inválido';
+    : INVALID_EMAIL_MESSAGE;
 
 String? validatePassword(String? value) => value != null && value.trim().length >= 6
     ? null
-    : "Senha precisa ter 6 ou mais caracteres.";
+    : INVALID_SHORT_PASSWORD_MESSAGE;
