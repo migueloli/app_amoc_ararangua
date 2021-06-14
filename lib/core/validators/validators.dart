@@ -9,6 +9,7 @@ const INVALID_SHORT_ADDRESS_MESSAGE = 'Endereço precisa ter mais de 10 caracter
 const INVALID_SHORT_NEIGHBORHOOD_MESSAGE = 'Bairro precisa ter mais de 3 caracteres';
 const INVALID_EMAIL_MESSAGE = 'E-mail inválido';
 const INVALID_SHORT_PASSWORD_MESSAGE = 'Senha precisa ter 6 ou mais caracteres.';
+const INVALID_SHORT_DESCRIPTION_MESSAGE = 'Descrição precisa ter mais de 20 caracteres.';
 
 String? validateName(String? value) => value != null && value.trim().length >= 3
     ? null
@@ -49,3 +50,7 @@ String? validateEmail(String? value) => value.isValidEmail
 String? validatePassword(String? value) => value != null && value.trim().length >= 6
     ? null
     : INVALID_SHORT_PASSWORD_MESSAGE;
+
+String? validateDescription(String? value) => value != null && value.trim().length >= 20
+    ? null
+    : INVALID_SHORT_DESCRIPTION_MESSAGE;
