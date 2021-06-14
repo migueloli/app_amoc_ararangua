@@ -6,7 +6,7 @@ void main() {
     'PageControllerEvent',
     () {
       final page = 1;
-      var event = PageControllerEvent(page);
+      var event = PageControllerEvent(page: page);
 
       test(
         'test PageControllerEvent is an extension of HomeEvent',
@@ -25,7 +25,7 @@ void main() {
       );
 
       test(
-        'test props of PageControllerEvent as an empty list',
+        'test props of PageControllerEvent as a list with page',
         () {
           //Assert
           expect(event.props, [page]);

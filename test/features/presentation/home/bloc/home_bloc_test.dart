@@ -1,16 +1,6 @@
-import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/states/bloc_state.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
-
-class MockGetAccountsUseCase extends Mock implements GetAccountsUseCase {}
-
-class MockFailure extends Failure{
-  @override
-  List<Object> get props => [];
-}
 
 void main() {
   late HomeBloc bloc;
@@ -32,7 +22,7 @@ void main() {
       test(
         'should emit [SuccessBlocState]',
         () {
-          final event = PageControllerEvent(1);
+          final event = PageControllerEvent(page: 1);
 
           //Arrange
           final expected = [
@@ -48,5 +38,4 @@ void main() {
       );
     }
   );
-
 }
