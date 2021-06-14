@@ -8,7 +8,7 @@ class PageControllerEvent extends HomeEvent {
 
   final int page;
 
-  PageControllerEvent(this.page);
+  PageControllerEvent({required this.page});
 
   @override
   List<Object?> get props => [page];

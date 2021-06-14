@@ -8,6 +8,8 @@ part 'home_event.dart';
 
 class HomeBloc extends Bloc<HomeEvent, BlocState> {
 
+  static const LAST_PAGE = 2;
+
   HomeBloc() : super(BlocState.empty());
 
   @override
@@ -15,7 +17,20 @@ class HomeBloc extends Bloc<HomeEvent, BlocState> {
     HomeEvent event,
   ) async* {
     if(event is PageControllerEvent) {
-      yield SuccessBlocState(value: event.page);
+      var page = event.page;
+
+      if(page > LAST_PAGE) {
+        page = 2;
+      } else if(page < 0) {
+        page = 0;
+      }
+
+      yield SuccessBlocState(value: page);
     }
   }
+
+  bool isFirstPage(int page) => 0 == page;
+
+  bool isLastPage(int page) => LAST_PAGE == page;
+
 }

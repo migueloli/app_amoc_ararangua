@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
       ),
       body: PageView(
         controller: _pageController,
-        onPageChanged: (i) => homeBloc.add(PageControllerEvent(i)),
+        onPageChanged: (i) => homeBloc.add(PageControllerEvent(page: i)),
         children: <Widget>[
           ServicesPage(),
           AccountPage(),
@@ -40,12 +40,7 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: BlocBuilder<HomeBloc, BlocState>(
         bloc: homeBloc,
         builder: (_, state) {
-          final page;
-          if(state is SuccessBlocState) {
-            page = state.value;
-          } else {
-            page = 0;
-          }
+          final page = state is SuccessBlocState ? state.value : 0;
 
           return BottomNavyBar(
             selectedIndex: page,
