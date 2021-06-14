@@ -24,7 +24,7 @@ class AccountPage extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: MaterialButton(
             child: Text('Cadastrar'),
-            onPressed: () => Modular.to.pushNamed("/account"),
+            onPressed: () => Modular.to.pushNamed("/create-account"),
           ),
         ),
         Padding(
