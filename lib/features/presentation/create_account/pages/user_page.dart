@@ -10,7 +10,7 @@ class UserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: _form,
-      child: ListView(
+      child: Column(
         children: <Widget>[
           TextFieldWidget(
             label: "Nome",
