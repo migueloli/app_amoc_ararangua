@@ -6,7 +6,7 @@ void main() {
     'validateName',
     () {
       test(
-        'name invalid because length smaller than 4 (Jo)',
+        'name invalid because length smaller than 3 (Jo)',
         () {
           //Arrange
           final name = 'Jo';
@@ -314,6 +314,39 @@ void main() {
 
           //Act
           final result = validatePassword(password);
+
+          //Assert
+          expect(result, null);
+        }
+      );
+    }
+  );
+
+  group(
+    'validateDescription',
+    () {
+      test(
+        'description invalid because length smaller than 20 (Teste)',
+        () {
+          //Arrange
+          final description = 'Teste';
+
+          //Act
+          final result = validateDescription(description);
+
+          //Assert
+          expect(result, INVALID_SHORT_DESCRIPTION_MESSAGE);
+        }
+      );
+
+      test(
+        'description valid',
+        () {
+          //Arrange
+          final description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ullamcorper imperdiet arcu, a posuere erat auctor ut. Maecenas vel ornare.';
+
+          //Act
+          final result = validateDescription(description);
 
           //Assert
           expect(result, null);
