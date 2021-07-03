@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/validators/validators.dart';
-import '../widgets/dropdown_widget.dart';
-import '../widgets/text_field_widget.dart';
+import '../../../../../core/validators/validators.dart';
+import '../../widgets/dropdown_widget.dart';
+import '../../widgets/text_field_widget.dart';
 
 class WorkerPage extends StatelessWidget {
   final GlobalKey<FormState> _form = GlobalKey();

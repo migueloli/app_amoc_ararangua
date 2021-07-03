@@ -1,6 +1,8 @@
-import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+
+import '../../../../../core/theme/theme.dart';
 
 class AccountPage extends StatelessWidget {
 
@@ -14,9 +16,9 @@ class AccountPage extends StatelessWidget {
           child: SwitchListTile(
             value: Theme.of(context).brightness == Brightness.dark,
             title: Text('Modo noturno'),
-            onChanged: (value) {
-              EasyDynamicTheme.of(context).changeTheme(dark: value);
-            },
+            onChanged: (value) => value
+                ? DynamicTheme.of(context)?.setTheme(AppThemes.DARK_THEME)
+                : DynamicTheme.of(context)?.setTheme(AppThemes.LIGHT_THEME),
           ),
         ),
         Divider(),

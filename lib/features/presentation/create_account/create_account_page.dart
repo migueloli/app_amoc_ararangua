@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/create_account_bloc.dart';
-import 'pages/person_page.dart';
-import 'pages/user_page.dart';
-import 'pages/worker_page.dart';
+import 'pages/person/person_page.dart';
+import 'pages/user/user_page.dart';
+import 'pages/worker/worker_page.dart';
 
 class CreateAccountPage extends StatelessWidget {
   final CreateAccountBloc createAccountBloc = Modular.get();
