@@ -10,7 +10,7 @@ class TextFieldWidget extends StatelessWidget {
   final int maxLines;
   final List<TextInputFormatter>? inputFormatters;
   final FormFieldSetter<String> onSaved;
-  final FormFieldValidator<String> validator;
+  final FormFieldValidator<String>? validator;
   final bool obscureText;
   final TextCapitalization capitalization;
   final TextInputAction textInputAction;
@@ -25,7 +25,7 @@ class TextFieldWidget extends StatelessWidget {
     this.maxLines = 1,
     this.inputFormatters,
     required this.onSaved,
-    required this.validator,
+    this.validator,
     this.obscureText = false,
     this.capitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
