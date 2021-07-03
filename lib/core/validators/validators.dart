@@ -54,3 +54,7 @@ String? validatePassword(String? value) => value != null && value.trim().length 
 String? validateDescription(String? value) => value != null && value.trim().length >= 20
     ? null
     : INVALID_SHORT_DESCRIPTION_MESSAGE;
+
+String? validateCity(String? value) => value != null && value.trim().length > 3
+    ? null
+    : "Cidade precisa ter mais de 3 caracteres.";
