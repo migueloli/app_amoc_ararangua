@@ -29,8 +29,9 @@ dependencies:
   flutter_modular: ^3.1.0
   curved_splash_screen: ^1.0.0+1
   bottom_navy_bar: ^6.0.0
-  easy_dynamic_theme: ^2.0.0
+  dynamic_themes: ^1.1.0
   kayta: ^1.0.2
+  shared_preferences: ^2.0.6
   flutter:
     sdk: flutter
 

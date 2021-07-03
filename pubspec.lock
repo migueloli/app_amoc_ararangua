@@ -134,13 +134,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0-prev1"
-  easy_dynamic_theme:
+  dynamic_themes:
     dependency: "direct main"
     description:
-      name: easy_dynamic_theme
+      name: dynamic_themes
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.1.0"
   equatable:
     dependency: "direct main"
     description:
@@ -402,12 +402,12 @@ packages:
     source: hosted
     version: "2.0.0"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.6"
   shared_preferences_linux:
     dependency: transitive
     description:
