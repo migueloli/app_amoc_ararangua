@@ -1,6 +1,7 @@
 import 'package:app_amoc_ararangua/core/validators/validators.dart';
-import 'package:app_amoc_ararangua/features/presentation/create_account/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/text_field_widget.dart';
 
 class UserPage extends StatelessWidget {
 
@@ -12,15 +13,7 @@ class UserPage extends StatelessWidget {
       key: _form,
       child: Column(
         children: <Widget>[
-          TextFieldWidget(
-            label: "Nome",
-            icon: Icon(Icons.person),
-            inputType: TextInputType.name,
-            validator: validateName,
-            onSaved: (value) {},
-            capitalization: TextCapitalization.words,
-            textInputAction: TextInputAction.next,
-          ),
+          Divider(),
           TextFieldWidget(
             label: "E-mail",
             icon: Icon(Icons.mail),
@@ -44,14 +37,6 @@ class UserPage extends StatelessWidget {
             onSaved: (value) {},
             obscureText: true,
             textInputAction: TextInputAction.done,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: SwitchListTile(
-              value: true,
-              title: Text('Prestar serviço?'),
-              onChanged: (value) {},
-            ),
           ),
           Divider(),
           SizedBox(height: 10,),

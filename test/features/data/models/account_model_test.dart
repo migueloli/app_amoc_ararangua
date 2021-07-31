@@ -8,7 +8,7 @@ import '../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tAccountModel = AccountModel(
-    id: 1,
+    id: "",
     name: "Test",
     document: "123",
     email: "test@test.com",
@@ -23,7 +23,6 @@ void main() {
     description: "Test",
     status: 0,
     cause: "Test",
-    password: "Test",
   );
 
   test(
@@ -63,7 +62,7 @@ void main() {
 
           //Assert
           final expectedMap = {
-            "id": 1,
+            "id": "",
             "name": "Test",
             "document": "123",
             "email": "test@test.com",
@@ -78,7 +77,6 @@ void main() {
             "description": "Test",
             "status": 0,
             "cause": "Test",
-            "password": "Test",
           };
           expect(result, expectedMap);
         }

@@ -4,17 +4,17 @@ import 'package:app_amoc_ararangua/core/states/bloc_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'create_account_event.dart';
+part 'profile_event.dart';
 
-class CreateAccountBloc extends Bloc<CreateAccountEvent, BlocState> {
+class ProfileBloc extends Bloc<ProfileEvent, BlocState> {
 
   static const LAST_STEP = 2;
 
-  CreateAccountBloc() : super(BlocState.empty());
+  ProfileBloc() : super(BlocState.empty());
 
   @override
   Stream<BlocState> mapEventToState(
-    CreateAccountEvent event,
+    ProfileEvent event,
   ) async* {
     if(event is ChangeStepEvent) {
       var step = event.step;

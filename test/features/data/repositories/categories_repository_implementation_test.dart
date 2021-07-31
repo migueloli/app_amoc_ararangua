@@ -31,8 +31,8 @@ void main() {
         () async {
           //Arrange
           final tListOfCategories = [
-            CategoryModel(id: 1, description: "Test Category 1"),
-            CategoryModel(id: 2, description: "Test Category 2"),
+            CategoryModel(id: "", description: "Test Category 1"),
+            CategoryModel(id: "", description: "Test Category 2"),
           ];
 
           when(datasource.getListOfCategories).thenAnswer((_) async => tListOfCategories);

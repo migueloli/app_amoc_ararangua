@@ -27,8 +27,8 @@ void main() {
         () async {
           //Arrange
           final tListOfCategories = [
-            CategoryEntity(id: 1, description: 'Test Category 1'),
-            CategoryEntity(id: 2, description: 'Test Category 2'),
+            CategoryEntity(id: "", description: 'Test Category 1'),
+            CategoryEntity(id: "", description: 'Test Category 2'),
           ];
           final tNoParam = NoParams();
 

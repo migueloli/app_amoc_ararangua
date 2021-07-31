@@ -3,7 +3,7 @@ import '../../domain/entities/account_entity.dart';
 class AccountModel extends AccountEntity {
 
   const AccountModel({
-    required int id,
+    required String id,
     required String name,
     required String document,
     required String email,
@@ -18,7 +18,6 @@ class AccountModel extends AccountEntity {
     required String description,
     required int status,
     required String cause,
-    required String password,
   }): super(
     id: id,
     name: name,
@@ -35,12 +34,11 @@ class AccountModel extends AccountEntity {
     description: description,
     status: status,
     cause: cause,
-    password: password,
   );
 
-  factory AccountModel.fromJson(Map<String, dynamic> json) {
+  factory AccountModel.fromJson(Map<String, dynamic> json, {String? id}) {
     return AccountModel(
-      id: json['id'],
+      id: id ?? json['id'],
       name: json['name'],
       document: json['document'],
       email: json['email'],
@@ -55,7 +53,6 @@ class AccountModel extends AccountEntity {
       description: json['description'],
       status: json['status'] ?? 1,
       cause: json['cause'] ?? '',
-      password: json['password'] ?? '',
     );
   }
 
@@ -75,7 +72,6 @@ class AccountModel extends AccountEntity {
     'description': description,
     'status': status,
     'cause': cause,
-    'password': password,
   };
 
 }

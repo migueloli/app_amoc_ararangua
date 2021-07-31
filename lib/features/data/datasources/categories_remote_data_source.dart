@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../core/errors/exceptions.dart';
 import '../models/category_model.dart';
@@ -13,24 +11,24 @@ abstract class ICategoriesRemoteDataSource {
 
 class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSource {
 
-  final Dio dio;
+  final FirebaseFirestore store;
 
-  CategoriesRemoteDataSourceImplementation(this.dio);
+  CategoriesRemoteDataSourceImplementation(this.store);
 
   @override
   Future<List<CategoryModel>> getListOfCategories() async {
-    final response = await dio.get('category');
+    try {
+      final response = await store.collection('categories').get();
 
-    if(response.statusCode == HttpStatus.ok) {
       final categoriesList = <CategoryModel>[];
-      for(var json in response.data) {
-        categoriesList.add(CategoryModel.fromJson(json));
+      for(var doc in response.docs) {
+        categoriesList.add(CategoryModel.fromJson(doc.data()));
       }
 
       return categoriesList;
+    } catch(exception) {
+      throw ServerException();
     }
-
-    throw ServerException();
   }
 
 }

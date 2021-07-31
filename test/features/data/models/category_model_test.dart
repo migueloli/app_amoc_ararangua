@@ -8,7 +8,7 @@ import '../../../fixtures/fixture_reader.dart';
 void main() {
 
   final tCategoryModel = CategoryModel(
-    id: 1,
+    id: "",
     description: "Test Category",
   );
 
@@ -49,7 +49,7 @@ void main() {
 
           //Assert
           final expectedMap = {
-            'id': 1,
+            'id': "",
             'description': "Test Category",
           };
           expect(result, expectedMap);

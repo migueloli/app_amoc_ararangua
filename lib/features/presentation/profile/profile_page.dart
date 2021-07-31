@@ -4,13 +4,13 @@ import '../../../core/states/bloc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/create_account_bloc.dart';
+import 'bloc/profile_bloc.dart';
 import 'pages/person/person_page.dart';
 import 'pages/user/user_page.dart';
 import 'pages/worker/worker_page.dart';
 
-class CreateAccountPage extends StatelessWidget {
-  final CreateAccountBloc createAccountBloc = Modular.get();
+class ProfilePage extends StatelessWidget {
+  final ProfileBloc createAccountBloc = Modular.get();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CreateAccountPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Criar Conta'),
       ),
-      body: BlocBuilder<CreateAccountBloc, BlocState>(
+      body: BlocBuilder<ProfileBloc, BlocState>(
         bloc: createAccountBloc,
         builder: (context, state) {
           final currentStep = state is SuccessBlocState ? state.value : 0;
@@ -29,6 +29,11 @@ class CreateAccountPage extends StatelessWidget {
             onStepContinue: () => createAccountBloc.add(ChangeStepEvent(step: currentStep+1)),
             onStepCancel: currentStep > 0 ? () => createAccountBloc.add(ChangeStepEvent(step: currentStep-1)) : null,
             steps: [
+              Step(
+                title: Text('Usuário'),
+                content: UserPage(),
+                state: _getStepState(currentStep, 0),
+              ),
               Step(
                 title: Text('Usuário'),
                 content: UserPage(),

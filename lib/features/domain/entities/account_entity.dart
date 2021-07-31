@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class AccountEntity extends Equatable {
 
-  final int id;
+  final String id;
   final String name;
   final String document;
   final String email;
@@ -17,10 +17,9 @@ class AccountEntity extends Equatable {
   final String description;
   final int status;
   final String cause;
-  final String password;
 
   const AccountEntity({
-    required this.id,
+    this.id = '',
     required this.name,
     required this.document,
     required this.email,
@@ -35,7 +34,6 @@ class AccountEntity extends Equatable {
     required this.description,
     required this.status,
     required this.cause,
-    this.password = '',
   });
 
   @override

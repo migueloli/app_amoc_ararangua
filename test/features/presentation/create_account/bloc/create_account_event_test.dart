@@ -1,4 +1,4 @@
-import 'package:app_amoc_ararangua/features/presentation/create_account/bloc/create_account_bloc.dart';
+import 'package:app_amoc_ararangua/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -12,7 +12,7 @@ void main() {
         'test ChangeStepEvent is an extension of CreateAccountEvent',
         () {
           //Assert
-          expect(event, isA<CreateAccountEvent>());
+          expect(event, isA<ProfileEvent>());
         }
       );
 

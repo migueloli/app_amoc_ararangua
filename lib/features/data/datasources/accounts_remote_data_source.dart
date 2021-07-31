@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
-import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/account_model.dart';
 
@@ -15,39 +13,41 @@ abstract class IAccountsRemoteDataSource {
 
 class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
-  final Dio dio;
+  final FirebaseFirestore store;
 
-  AccountsRemoteDataSourceImplementation(this.dio);
+  AccountsRemoteDataSourceImplementation(this.store);
 
   @override
   Future<List<AccountModel>> getListOfAccounts() async {
-    final response = await dio.get('user');
-
-    if(response.statusCode == HttpStatus.ok) {
+    try {
+      final response = await store.collection('users').where('is_worker', isEqualTo: true).where('status', isEqualTo: 1).get();
       final accountList = <AccountModel>[];
 
-      for(var json in response.data) {
-        accountList.add(AccountModel.fromJson(json));
+      for(var doc in response.docs) {
+        accountList.add(AccountModel.fromJson(doc.data()));
       }
 
       return accountList;
+    } catch(exception) {
+      throw ServerException;
     }
-
-    throw ServerException();
   }
 
   @override
   Future<AccountModel> saveAccount(AccountModel account) async {
-    final response = await dio.post(
-      'user',
-      data: account.toJson(),
-    );
+    try {
+      final response = await store.collection('users').add(account.toJson());
+      final doc = await response.get();
+      final data = doc.data();
 
-    if(response.statusCode == HttpStatus.created) {
-      return AccountModel.fromJson(response.data);
+      if(data != null) {
+        return AccountModel.fromJson(data);
+      } else {
+        throw ServerException();
+      }
+    } catch(exception) {
+      throw ServerException();
     }
-
-    throw ServerException();
   }
 
 }

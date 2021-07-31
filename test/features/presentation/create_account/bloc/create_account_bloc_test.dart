@@ -1,12 +1,12 @@
 import 'package:app_amoc_ararangua/core/states/bloc_state.dart';
-import 'package:app_amoc_ararangua/features/presentation/create_account/bloc/create_account_bloc.dart';
+import 'package:app_amoc_ararangua/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  late CreateAccountBloc bloc;
+  late ProfileBloc bloc;
 
   setUp((){
-    bloc = CreateAccountBloc();
+    bloc = ProfileBloc();
   });
 
   test(

@@ -13,6 +13,14 @@ class WorkerPage extends StatelessWidget {
       key: _form,
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: SwitchListTile(
+              value: true,
+              title: Text('Prestar serviço?'),
+              onChanged: (value) {},
+            ),
+          ),
           TextFieldWidget(
             label: "Descrição",
             icon: Icon(Icons.description),

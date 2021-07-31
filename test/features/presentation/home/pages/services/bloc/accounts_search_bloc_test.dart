@@ -93,7 +93,7 @@ void main() {
         () {
           final tListOfAccounts = [
             AccountEntity(
-              id: 1,
+              id: "",
               name: "Test 1",
               document: "123",
               email: "test1@test.com",
@@ -108,10 +108,9 @@ void main() {
               description: "Test 1",
               status: 0,
               cause: "Test 1",
-              password: "Test1",
             ),
             AccountEntity(
-              id: 2,
+              id: "",
               name: "Test 2",
               document: "321",
               email: "test2@test.com",
@@ -126,7 +125,6 @@ void main() {
               description: "Test 2",
               status: 1,
               cause: "Test 2",
-              password: "Test2"
             ),
           ];
 
