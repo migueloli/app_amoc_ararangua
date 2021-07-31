@@ -2,7 +2,7 @@ import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
 import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
-import 'package:app_amoc_ararangua/features/presentation/home/pages/services/store/account_search_store.dart';
+import 'package:app_amoc_ararangua/features/presentation/home/pages/services/store/services_store.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -11,11 +11,11 @@ class MockGetAccountsUseCase extends Mock implements GetAccountsUseCase {}
 
 void main() {
   late GetAccountsUseCase useCase;
-  late AccountSearchStore store;
+  late ServicesStore store;
 
   setUp(() {
     useCase = MockGetAccountsUseCase();
-    store = AccountSearchStore(getAccountUseCase: useCase);
+    store = ServicesStore(getAccountUseCase: useCase);
   });
 
   test(

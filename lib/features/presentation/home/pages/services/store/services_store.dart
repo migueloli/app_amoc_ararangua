@@ -4,11 +4,11 @@ import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart'
 import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
-class AccountSearchStore extends NotifierStore<Failure, List<AccountEntity>> {
+class ServicesStore extends NotifierStore<Failure, List<AccountEntity>> {
 
   final GetAccountsUseCase getAccountUseCase;
 
-  AccountSearchStore({required this.getAccountUseCase}) : super([]);
+  ServicesStore({required this.getAccountUseCase}) : super([]);
 
   searchServiceAccounts() async {
     setLoading(true);

@@ -5,14 +5,14 @@ import 'package:flutter_triple/flutter_triple.dart';
 
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/error_message_widget.dart';
-import 'store/account_search_store.dart';
+import 'store/services_store.dart';
 
 class ServicesPage extends StatefulWidget {
   @override
   _ServicesPageState createState() => _ServicesPageState();
 }
 
-class _ServicesPageState extends ModularState<ServicesPage, AccountSearchStore> {
+class _ServicesPageState extends ModularState<ServicesPage, ServicesStore> {
   @override
   void initState() {
     controller.searchServiceAccounts();
