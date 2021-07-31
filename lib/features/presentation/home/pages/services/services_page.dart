@@ -1,67 +1,63 @@
+import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_triple/flutter_triple.dart';
 
-import '../../../../../core/states/bloc_state.dart';
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/error_message_widget.dart';
-import 'bloc/account_search_bloc.dart';
+import 'store/account_search_store.dart';
 
 class ServicesPage extends StatefulWidget {
   @override
   _ServicesPageState createState() => _ServicesPageState();
 }
 
-class _ServicesPageState extends State<ServicesPage> {
-  final AccountsSearchBloc _accountsSearchBloc = Modular.get();
-
+class _ServicesPageState extends ModularState<ServicesPage, AccountSearchStore> {
   @override
   void initState() {
-    _accountsSearchBloc.add(GetAccountsEvent());
+    controller.searchServiceAccounts();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountsSearchBloc, BlocState>(
-      bloc: _accountsSearchBloc,
-      builder: _buildServicesPage,
+    return ScopedBuilder(
+      store: controller,
+      onState: _onState,
+      onLoading: _onLoading,
+      onError: _onError,
     );
   }
 
-  Widget _buildServicesPage(context, state) {
-    if(state is SuccessBlocState){
-      final list = state.value as List<AccountEntity>;
+  Widget _onState(BuildContext context, List<AccountEntity> state) => ListView.separated(
+    itemCount: state.length,
+    itemBuilder: (_, index) => ListTile(
+      leading: Icon(
+        Icons.business,
+        color: Theme.of(context).accentColor
+      ),
+      title: Text(state[index].name),
+      subtitle: Text(state[index].phone),
+    ),
+    separatorBuilder: (_, index) => Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Divider(),
+    ),
+  );
 
-      return ListView.separated(
-        itemCount: list.length,
-        itemBuilder: (_, index) => ListTile(
-          leading: Icon(
-            Icons.business,
-            color: Theme.of(context).accentColor
-          ),
-          title: Text(list[index].name),
-          subtitle: Text(list[index].phone),
-        ),
-        separatorBuilder: (_, index) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Divider(),
-        ),
-      );
-    }
+  Widget _onLoading(BuildContext context) => Center(
+    child: CircularProgressIndicator()
+  );
 
-    switch (state.runtimeType) {
-      case LoadingBlocState:
-        return Center(
-          child: CircularProgressIndicator()
-        );
-      case EmptyBlocState:
+  Widget _onError(BuildContext context, Failure? error) {
+    switch(error.runtimeType) {
+      case NetworkFailure:
         return ErrorMessageWidget(
-          errorMessage: 'Lista vazia'
+          errorMessage: 'Não foi possível conectar a internet, verifique as conexões do aparelho.',
         );
-      case ErrorBlocState:
+      case ServerFailure:
         return ErrorMessageWidget(
-          errorMessage: (state as ErrorBlocState).message,
+          errorMessage: 'Ocorreu um erro na comunicação com o servidor, tente novamente.',
         );
       default:
         return ErrorMessageWidget(
