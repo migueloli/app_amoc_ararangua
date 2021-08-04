@@ -15,8 +15,8 @@ void main() {
   late IAccountsRepository repository;
 
   setUp(() {
-    repository = new MockAccountsRepository();
-    usecase = new GetAccountsUseCase(repository);
+    repository = MockAccountsRepository();
+    usecase = GetAccountsUseCase(repository);
   });
 
   group(

@@ -15,8 +15,8 @@ void main() {
   late ICategoriesRepository repository;
 
   setUp(() {
-    repository = new MockCategoriesRepository();
-    usecase = new GetCategoriesUseCase(repository);
+    repository = MockCategoriesRepository();
+    usecase = GetCategoriesUseCase(repository);
   });
 
   group(

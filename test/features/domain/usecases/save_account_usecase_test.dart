@@ -14,8 +14,8 @@ void main() {
   late IAccountsRepository repository;
 
   setUp(() {
-    repository = new MockAccountsRepository();
-    usecase = new SaveAccountUseCase(repository);
+    repository = MockAccountsRepository();
+    usecase = SaveAccountUseCase(repository);
   });
 
   final tAccount = AccountEntity(
