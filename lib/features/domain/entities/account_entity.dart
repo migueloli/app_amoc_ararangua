@@ -36,6 +36,24 @@ class AccountEntity extends Equatable {
     required this.cause,
   });
 
+  factory AccountEntity.empty() => AccountEntity(
+    id: '',
+    name: '',
+    document: '',
+    email: '',
+    phone: '',
+    zip: '',
+    address: '',
+    number: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    isWorker: false,
+    description: '',
+    status: 0,
+    cause: '',
+  );
+
   @override
   List<Object?> get props => [
     id,
