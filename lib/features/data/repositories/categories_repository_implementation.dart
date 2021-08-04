@@ -4,7 +4,7 @@ import '../../../core/errors/failures.dart';
 import '../../../core/network/network_info.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/categories_repository.dart';
-import '../datasources/categories_remote_data_source.dart';
+import '../datasources/categories_remote_datasource.dart';
 
 class CategoriesRepositoryImplementation implements ICategoriesRepository {
 

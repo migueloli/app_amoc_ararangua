@@ -1,7 +1,7 @@
 import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/network/network_info.dart';
-import 'package:app_amoc_ararangua/features/data/datasources/categories_remote_data_source.dart';
+import 'package:app_amoc_ararangua/features/data/datasources/categories_remote_datasource.dart';
 import 'package:app_amoc_ararangua/features/data/models/category_model.dart';
 import 'package:app_amoc_ararangua/features/data/repositories/categories_repository_implementation.dart';
 import 'package:dartz/dartz.dart';
