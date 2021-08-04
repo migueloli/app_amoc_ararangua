@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../domain/entities/account_entity.dart';
 
 class AccountModel extends AccountEntity {
@@ -36,25 +38,41 @@ class AccountModel extends AccountEntity {
     cause: cause,
   );
 
-  factory AccountModel.fromJson(Map<String, dynamic> json, {String? id}) {
-    return AccountModel(
-      id: id ?? json['id'],
-      name: json['name'],
-      document: json['document'],
-      email: json['email'],
-      phone: json['phone'],
-      zip: json['zip'],
-      address: json['address'],
-      number: json['number'],
-      neighborhood: json['neighborhood'],
-      city: json['city'],
-      state: json['state'],
-      isWorker: json['is_worker'],
-      description: json['description'],
-      status: json['status'] ?? 1,
-      cause: json['cause'] ?? '',
-    );
-  }
+  factory AccountModel.fromJson(Map<String, dynamic> json, {String? id}) => AccountModel(
+    id: id ?? json['id'],
+    name: json['name'],
+    document: json['document'],
+    email: json['email'],
+    phone: json['phone'],
+    zip: json['zip'],
+    address: json['address'],
+    number: json['number'],
+    neighborhood: json['neighborhood'],
+    city: json['city'],
+    state: json['state'],
+    isWorker: json['is_worker'],
+    description: json['description'],
+    status: json['status'] ?? 1,
+    cause: json['cause'] ?? '',
+  );
+
+  factory AccountModel.fromUser(User user) => AccountModel(
+    id: user.uid,
+    name: user.displayName ?? '',
+    document: '',
+    email: user.email ?? '',
+    phone: '',
+    zip: '',
+    address: '',
+    number: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    isWorker: false,
+    description: '',
+    status: 0,
+    cause: '',
+  );
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -73,5 +91,4 @@ class AccountModel extends AccountEntity {
     'status': status,
     'cause': cause,
   };
-
 }
