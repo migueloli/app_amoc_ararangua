@@ -12,4 +12,6 @@ abstract class IAccountsRemoteDataSource {
 
   Future<AccountModel> loginWithGoogle();
 
+  Future<AccountModel> getLoggedUser();
+
 }

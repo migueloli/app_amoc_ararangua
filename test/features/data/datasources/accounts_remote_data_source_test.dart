@@ -633,4 +633,60 @@ void main() {
       );
     }
   );
+
+  group(
+    'getLoggedUser',
+    () {
+      final user = MockUser();
+      final tAccount = AccountModel(
+        id: "1",
+        name: "Test",
+        document: "123",
+        email: "test@test.com",
+        phone: "123456",
+        zip: "123456",
+        address: "Test",
+        number: "123",
+        neighborhood: "Test",
+        city: "Test",
+        state: "Test",
+        isWorker: true,
+        description: "Test",
+        status: 0,
+        cause: "Test",
+      );
+
+      test(
+        'should return an AccountModel for the given id',
+        () async {
+          //Arrange
+          await mockFirebaseStore.collection('users').add(tAccount.toJson());
+          when(() => mockFirebaseAuth.currentUser)
+            .thenReturn(user);
+          when(() => user.uid).thenReturn('1');
+
+          //Act
+          final result = await dataSource.getLoggedUser();
+
+          //Assert
+          expect(result, tAccount);
+        }
+      );
+
+      test(
+        'should throw an UserNotFoundException when the user does not exist',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.currentUser)
+            .thenThrow(UserNotFoundException());
+
+          //Act
+          final result = dataSource.getLoggedUser();
+
+          //Assert
+          expect(result, throwsA(UserNotFoundException()));
+        }
+      );
+    }
+  );
 }

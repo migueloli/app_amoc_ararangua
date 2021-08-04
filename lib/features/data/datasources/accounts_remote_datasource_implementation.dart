@@ -139,6 +139,17 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
     }
   }
 
+  @override
+  Future<AccountModel> getLoggedUser() async {
+    try {
+      final user = auth.currentUser;
+      if(user == null) throw UserNotFoundException();
+      return await getAccount(user.uid);
+    } catch (e) {
+      throw UserNotFoundException();
+    }
+  }
+
   Exception _prepareFirebaseException(String code) {
     switch(code) {
       case 'weak-password':
