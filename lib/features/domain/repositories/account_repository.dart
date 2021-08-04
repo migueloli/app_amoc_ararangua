@@ -9,4 +9,10 @@ abstract class IAccountsRepository {
 
   Future<Either<Failure, AccountEntity>> saveAccount(AccountEntity account);
 
+  Future<Either<Failure, AccountEntity>> getAccount(String uid);
+
+  Future<Either<Failure, AccountEntity>> loginWithEmailAndPassword(String email, String password);
+
+  Future<Either<Failure, AccountEntity>> loginWithGoogle();
+
 }
