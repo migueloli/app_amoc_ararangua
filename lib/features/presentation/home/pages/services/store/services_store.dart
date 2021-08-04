@@ -12,10 +12,13 @@ class ServicesStore extends NotifierStore<Failure, List<AccountEntity>> {
 
   searchServiceAccounts() async {
     setLoading(true);
-    var response = await getAccountUseCase(NoParams());
+
+    final response = await getAccountUseCase(NoParams());
     response.fold(
-      (failure) => setError(failure),
-      (success) => update(success),
+      setError,
+      update,
     );
+
+    setLoading(false);
   }
 }
