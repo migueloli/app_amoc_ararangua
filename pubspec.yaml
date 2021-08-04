@@ -42,7 +42,6 @@ dependencies:
 dev_dependencies:
   mocktail: ^0.1.4
   fake_cloud_firestore: ^1.1.2
-  firebase_auth_mocks: ^0.8.0
   google_sign_in_mocks: ^0.2.1
   flutter_test:
     sdk: flutter
