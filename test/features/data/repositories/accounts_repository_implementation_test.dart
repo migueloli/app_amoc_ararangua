@@ -696,4 +696,77 @@ void main() {
       );
     }
   );
+
+  group(
+    'getLoggedUser',
+    () {
+      final tAccount = AccountModel(
+        id: "1",
+        name: "Test 1",
+        document: "123",
+        email: "test1@test.com",
+        phone: "123456",
+        zip: "123456",
+        address: "Test 1",
+        number: "123",
+        neighborhood: "Test 1",
+        city: "Test 1",
+        state: "Test 1",
+        isWorker: true,
+        description: "Test 1",
+        status: 0,
+        cause: "Test 1",
+      );
+
+      test(
+        'should return a account model when calls the datasource',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.getLoggedUser()).thenAnswer((_) async => tAccount);
+
+          //Act
+          final result = await repository.getLoggedUser();
+
+          //Assert
+          expect(result, Right(tAccount));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.getLoggedUser()).called(1);
+        }
+      );
+
+      test(
+        'should return a UserNotFoundFailure when call to datasource is unsuccessful',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.getLoggedUser()).thenThrow(UserNotFoundException());
+
+          //Act
+          final result = await repository.getLoggedUser();
+
+          //Assert
+          expect(result, Left(UserNotFoundFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.getLoggedUser()).called(1);
+        }
+      );
+
+      test(
+        'should return a NetworkFailure when call to datasource is unsuccessful',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => false);
+
+          //Act
+          final result = await repository.getLoggedUser();
+
+          //Assert
+          expect(result, Left(NetworkFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verifyNever(() => datasource.getLoggedUser());
+        }
+      );
+    }
+  );
 }

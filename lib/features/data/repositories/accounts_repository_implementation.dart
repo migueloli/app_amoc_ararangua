@@ -109,6 +109,21 @@ class AccountsRepositoryImplementation implements IAccountsRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, AccountEntity>> getLoggedUser() async {
+    try {
+      final networkConnected = await networkInfo.isConnected;
+      if(!networkConnected)
+        return Left(NetworkFailure());
+
+      final result = await datasource.getLoggedUser();
+
+      return Right(result);
+    } on Exception {
+      return Left(UserNotFoundFailure());
+    }
+  }
+
   Failure _prepareFailureFromException(Exception e) {
     switch(e.runtimeType) {
       case WeakPasswordException:

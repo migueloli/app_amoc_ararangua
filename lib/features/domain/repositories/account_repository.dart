@@ -15,4 +15,6 @@ abstract class IAccountsRepository {
 
   Future<Either<Failure, AccountEntity>> loginWithGoogle();
 
+  Future<Either<Failure, AccountEntity>> getLoggedUser();
+
 }
