@@ -1,14 +1,15 @@
-import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
-import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+
+import '../../../../../../core/errors/failures.dart';
+import '../../../../../../core/usecases/usecase.dart';
+import '../../../../../domain/entities/account_entity.dart';
+import '../../../../../domain/usecases/get_accounts_usecase.dart';
 
 class ServicesStore extends NotifierStore<Failure, List<AccountEntity>> {
 
   final GetAccountsUseCase getAccountUseCase;
 
-  ServicesStore({required this.getAccountUseCase}) : super([]);
+  ServicesStore(this.getAccountUseCase) : super([]);
 
   searchServiceAccounts() async {
     setLoading(true);

@@ -1,9 +1,9 @@
-import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
-import 'package:app_amoc_ararangua/features/data/models/account_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../core/errors/exceptions.dart';
+import '../models/account_model.dart';
 import 'accounts_remote_datasource.dart';
 
 class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {

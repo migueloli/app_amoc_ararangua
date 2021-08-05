@@ -1,7 +1,7 @@
-import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
-import 'package:app_amoc_ararangua/features/data/models/category_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../core/errors/exceptions.dart';
+import '../models/category_model.dart';
 import 'categories_remote_datasource.dart';
 
 class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSource {

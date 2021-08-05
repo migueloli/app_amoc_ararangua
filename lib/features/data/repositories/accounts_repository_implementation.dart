@@ -1,12 +1,12 @@
-import 'package:app_amoc_ararangua/core/errors/exceptions.dart';
-import 'package:app_amoc_ararangua/features/data/models/account_model.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../core/errors/exceptions.dart';
 import '../../../core/errors/failures.dart';
 import '../../../core/network/network_info.dart';
 import '../../domain/entities/account_entity.dart';
 import '../../domain/repositories/account_repository.dart';
 import '../datasources/accounts_remote_datasource.dart';
+import '../models/account_model.dart';
 
 class AccountsRepositoryImplementation implements IAccountsRepository {
 

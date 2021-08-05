@@ -1,11 +1,11 @@
-import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
+import '../../../../../core/errors/failures.dart';
 import '../../../../../core/theme/theme.dart';
+import '../../../../domain/entities/account_entity.dart';
 import 'store/account_store.dart';
 
 class AccountPage extends StatefulWidget {

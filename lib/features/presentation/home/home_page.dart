@@ -1,4 +1,3 @@
-import 'package:app_amoc_ararangua/features/presentation/home/store/home_store.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 
 import 'pages/account/account_page.dart';
 import 'pages/services/services_page.dart';
+import 'store/home_store.dart';
 
 class HomePage extends StatefulWidget {
 

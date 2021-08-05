@@ -1,8 +1,8 @@
-import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
+import '../../../../../core/errors/failures.dart';
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/error_message_widget.dart';
 import 'store/services_store.dart';
