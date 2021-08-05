@@ -15,7 +15,7 @@ void main() {
 
   setUp(() {
     useCase = MockGetAccountsUseCase();
-    store = ServicesStore(getAccountUseCase: useCase);
+    store = ServicesStore(useCase);
   });
 
   test(
