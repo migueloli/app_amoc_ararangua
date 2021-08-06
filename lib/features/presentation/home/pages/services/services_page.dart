@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
-import '../../../../../core/errors/failures.dart';
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/error_message_widget.dart';
 import 'store/services_store.dart';
@@ -49,20 +48,7 @@ class _ServicesPageState extends ModularState<ServicesPage, ServicesStore> {
     child: CircularProgressIndicator()
   );
 
-  Widget _onError(BuildContext context, Failure? error) {
-    switch(error.runtimeType) {
-      case NetworkFailure:
-        return ErrorMessageWidget(
-          errorMessage: 'Não foi possível conectar a internet, verifique as conexões do aparelho.',
-        );
-      case ServerFailure:
-        return ErrorMessageWidget(
-          errorMessage: 'Ocorreu um erro na comunicação com o servidor, tente novamente.',
-        );
-      default:
-        return ErrorMessageWidget(
-          errorMessage: 'Ocorreu um erro, tente novamente.',
-        );
-    }
-  }
+  Widget _onError(BuildContext context, String? error) => ErrorMessageWidget(
+    errorMessage: error ?? 'Ocorreu um erro, tente novamente.',
+  );
 }

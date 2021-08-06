@@ -5,7 +5,7 @@ import '../../../../../../core/usecases/usecase.dart';
 import '../../../../../domain/entities/account_entity.dart';
 import '../../../../../domain/usecases/get_accounts_usecase.dart';
 
-class ServicesStore extends NotifierStore<Failure, List<AccountEntity>> {
+class ServicesStore extends NotifierStore<String, List<AccountEntity>> {
 
   final GetAccountsUseCase getAccountUseCase;
 
@@ -16,7 +16,19 @@ class ServicesStore extends NotifierStore<Failure, List<AccountEntity>> {
 
     final response = await getAccountUseCase(NoParams());
     response.fold(
-      setError,
+      (failure) {
+        switch(failure.runtimeType) {
+          case NetworkFailure:
+            setError('Não foi possível conectar a internet, verifique as conexões do aparelho.');
+            break;
+          case ServerFailure:
+            setError('Ocorreu um erro na comunicação com o servidor, tente novamente.');
+            break;
+          default:
+            setError('Ocorreu um erro, tente novamente.');
+            break;
+        }
+      },
       update,
     );
 
