@@ -6,6 +6,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/theme/theme.dart';
 import '../../../../domain/entities/account_entity.dart';
+import '../../../widgets/menu_button_widget.dart';
 import 'store/account_store.dart';
 
 class AccountPage extends StatefulWidget {
@@ -47,26 +48,23 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
   List<Widget> _createMenu(BuildContext context, AccountEntity? entity) {
     final textStyle = TextStyle(
       color: Theme.of(context).accentColor,
-      fontSize: 10,
-      fontStyle: FontStyle.italic,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
     );
     var widgets = <Widget>[];
 
     widgets.addAll([
       SizedBox(height: 20,),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SwitchListTile(
-          value: Theme.of(context).brightness == Brightness.dark,
-          title: Text(
-            'Modo noturno',
-            style: textStyle,
-          ),
-          onChanged: (value) => value
-              ? DynamicTheme.of(context)?.setTheme(AppThemes.DARK_THEME)
-              : DynamicTheme.of(context)?.setTheme(AppThemes.LIGHT_THEME),
+      SwitchListTile(
+        activeColor: Theme.of(context).accentColor,
+        value: Theme.of(context).brightness == Brightness.dark,
+        title: Text(
+          'Modo noturno',
+          style: textStyle,
         ),
+        onChanged: (value) => value
+            ? DynamicTheme.of(context)?.setTheme(AppThemes.DARK_THEME)
+            : DynamicTheme.of(context)?.setTheme(AppThemes.LIGHT_THEME),
       ),
     ]);
 
@@ -76,7 +74,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
       widgets.addAll(_connectedItems(textStyle));
     }
 
-    widgets.add(
+    widgets.addAll([
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Text(
@@ -90,47 +88,32 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
           ),
         ),
       ),
-    );
+    ]);
 
     return widgets;
   }
 
   List<Widget> _disconnectedItems(TextStyle textStyle) => [
     Divider(),
-    Padding(
-      padding: const EdgeInsets.all(8),
-      child: MaterialButton(
-        child: Text(
-          'Login',
-          style: textStyle,
-        ),
-        onPressed: () {},
-      ),
+    MenuButtonWidget(
+      label: 'Login',
+      icon: Icons.login,
+      onPressed: () => Modular.to.pushNamed('/login'),
     ),
   ];
 
   List<Widget> _connectedItems(TextStyle textStyle) => [
     Divider(),
-    Padding(
-      padding: const EdgeInsets.all(8),
-      child: MaterialButton(
-        child: Text(
-          'Perfil',
-          style: textStyle,
-        ),
-        onPressed: () {},
-      ),
+    MenuButtonWidget(
+      label: 'Perfil',
+      icon: Icons.person,
+      onPressed: () {},
     ),
     Divider(),
-    Padding(
-      padding: const EdgeInsets.all(8),
-      child: MaterialButton(
-        child: Text(
-          'Sair',
-          style: textStyle,
-        ),
-        onPressed: () {},
-      ),
-    )
+    MenuButtonWidget(
+      label: 'Sair',
+      icon: Icons.logout,
+      onPressed: () {},
+    ),
   ];
 }

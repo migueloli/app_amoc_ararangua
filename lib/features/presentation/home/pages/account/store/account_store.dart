@@ -6,7 +6,9 @@ import '../../../../../domain/entities/account_entity.dart';
 import '../../../../../domain/usecases/get_logged_user_usecase.dart';
 
 class AccountStore extends NotifierStore<Failure, AccountEntity> {
+
   final GetLoggedUserUseCase getLoggedUserUseCase;
+
   AccountStore(this.getLoggedUserUseCase) : super(AccountEntity.empty());
 
   getLoggedUser() async {
