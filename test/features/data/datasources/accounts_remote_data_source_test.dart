@@ -27,7 +27,7 @@ void main() {
   group(
     'getListOfAccounts',
     () {
-      final tListOfAccounts = [
+      const tListOfAccounts = [
         AccountModel(
           id: "",
           name: "Test 1",
@@ -68,7 +68,7 @@ void main() {
         'should return an List<AccountModel>',
         () async {
           //Arrange
-          for(var tAccount in tListOfAccounts) {
+          for(final tAccount in tListOfAccounts) {
             await mockFirebaseStore.collection('users').add(tAccount.toJson());
           }
 
@@ -85,7 +85,7 @@ void main() {
   group(
     'saveAccount',
     () {
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "",
         name: "Test",
         document: "123",
@@ -119,7 +119,7 @@ void main() {
   group(
     'getAccount',
     () {
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "1",
         name: "Test",
         document: "123",
@@ -165,13 +165,126 @@ void main() {
   );
 
   group(
-    'loginWithEmailAndPassword',
+    'createAccountWithEmailAndPassword',
     () {
-      final email = "test@test.com";
-      final password = "123456";
+      const email = "test@test.com";
+      const password = "123456";
       final userCredential = MockUserCredential();
       final user = MockUser();
-      final tAccount = AccountModel(
+
+      test(
+        'should return a created AccountModel',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenAnswer((_) async => userCredential);
+          when(() => userCredential.user).thenReturn(user);
+          when(() => user.uid).thenReturn('1');
+          when(() => user.sendEmailVerification()).thenAnswer((_) async {});
+
+          //Act
+          final result = await dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, isA<AccountModel>());
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+          verify(() => userCredential.user).called(1);
+          verify(() => user.uid).called(1);
+          verify(() => user.sendEmailVerification()).called(1);
+        }
+      );
+
+      test(
+        'should throw an EmailAlreadyInUseException when trying to create user',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
+
+          //Act
+          final result = dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(EmailAlreadyInUseException()));
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+        }
+      );
+
+      test(
+        'should throw an WeakPasswordException when trying to create user',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenThrow(FirebaseAuthException(code: 'weak-password'));
+
+          //Act
+          final result = dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(WeakPasswordException()));
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+        }
+      );
+
+      test(
+        'should throw an InvalidEmailException when trying to create user',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenThrow(FirebaseAuthException(code: 'invalid-email'));
+
+          //Act
+          final result = dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(InvalidEmailException()));
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+        }
+      );
+
+      test(
+        'should throw an OperationNotAllowedException when trying to create user',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenThrow(FirebaseAuthException(code: 'operation-not-allowed'));
+
+          //Act
+          final result = dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(OperationNotAllowedException()));
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+        }
+      );
+
+      test(
+        'should throw an LoginException when trying to create user',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenThrow(Exception());
+
+          //Act
+          final result = dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(LoginException()));
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+          verifyNever(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password));
+        }
+      );
+    }
+  );
+
+  group(
+    'loginWithEmailAndPassword',
+    () {
+      const email = "test@test.com";
+      const password = "123456";
+      final userCredential = MockUserCredential();
+      final user = MockUser();
+      const tAccount = AccountModel(
         id: "1",
         name: "Test",
         document: "123",
@@ -190,35 +303,11 @@ void main() {
       );
 
       test(
-        'should return a created AccountModel',
-        () async {
-          //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenAnswer((_) async => userCredential);
-          when(() => userCredential.user).thenReturn(user);
-          when(() => user.uid).thenReturn('1');
-          when(() => user.sendEmailVerification()).thenAnswer((_) async {});
-
-          //Act
-          final result = await dataSource.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, isA<AccountModel>());
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
-          verify(() => userCredential.user).called(1);
-          verify(() => user.uid).called(1);
-          verify(() => user.sendEmailVerification()).called(1);
-        }
-      );
-
-      test(
         'should return an existent AccountModel with email not verified',
         () async {
           //Arrange
           await mockFirebaseStore.collection('users').add(tAccount.toJson());
 
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenAnswer((_) async => userCredential);
           when(() => userCredential.user).thenReturn(user);
@@ -231,7 +320,6 @@ void main() {
 
           //Assert
           expect(result, isA<AccountModel>());
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => userCredential.user).called(1);
           verify(() => user.uid).called(1);
@@ -246,8 +334,6 @@ void main() {
           //Arrange
           await mockFirebaseStore.collection('users').add(tAccount.toJson());
 
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenAnswer((_) async => userCredential);
           when(() => userCredential.user).thenReturn(user);
@@ -260,7 +346,6 @@ void main() {
 
           //Assert
           expect(result, isA<AccountModel>());
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => userCredential.user).called(1);
           verify(() => user.uid).called(1);
@@ -270,76 +355,9 @@ void main() {
       );
 
       test(
-        'should throw an WeakPasswordException when trying to create user',
-        () async {
-          //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'weak-password'));
-
-          //Act
-          final result = dataSource.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, throwsA(WeakPasswordException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
-        }
-      );
-
-      test(
-        'should throw an InvalidEmailException when trying to create user',
-        () async {
-          //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'invalid-email'));
-
-          //Act
-          final result = dataSource.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, throwsA(InvalidEmailException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
-        }
-      );
-
-      test(
-        'should throw an OperationNotAllowedException when trying to create user',
-        () async {
-          //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'operation-not-allowed'));
-
-          //Act
-          final result = dataSource.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, throwsA(OperationNotAllowedException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
-        }
-      );
-
-      test(
-        'should throw an LoginException when trying to create user',
-        () async {
-          //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(Exception());
-
-          //Act
-          final result = dataSource.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, throwsA(LoginException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
-          verifyNever(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password));
-        }
-      );
-
-      test(
         'should throw an UserDisabledException when trying to sign in',
         () async {
           //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenThrow(FirebaseAuthException(code: 'user-disabled'));
 
@@ -348,7 +366,6 @@ void main() {
 
           //Assert
           expect(result, throwsA(UserDisabledException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
         }
       );
@@ -357,8 +374,6 @@ void main() {
         'should throw an UserNotFoundException trying to sign in',
         () async {
           //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenThrow(FirebaseAuthException(code: 'user-not-found'));
 
@@ -367,7 +382,6 @@ void main() {
 
           //Assert
           expect(result, throwsA(UserNotFoundException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
         }
       );
@@ -376,8 +390,6 @@ void main() {
         'should throw an WrongPasswordException trying to sign in',
         () async {
           //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenThrow(FirebaseAuthException(code: 'wrong-password'));
 
@@ -386,7 +398,6 @@ void main() {
 
           //Assert
           expect(result, throwsA(WrongPasswordException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
         }
       );
@@ -395,8 +406,6 @@ void main() {
         'should throw an InvalidEmailException when trying to sign in',
         () async {
           //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
@@ -405,7 +414,6 @@ void main() {
 
           //Assert
           expect(result, throwsA(InvalidEmailException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
         }
       );
@@ -414,8 +422,6 @@ void main() {
         'should throw an LoginException when trying to sign in',
         () async {
           //Arrange
-          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
-            .thenThrow(FirebaseAuthException(code: 'email-already-in-use'));
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenThrow(Exception());
 
@@ -424,7 +430,6 @@ void main() {
 
           //Assert
           expect(result, throwsA(LoginException()));
-          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
         }
       );
@@ -434,10 +439,10 @@ void main() {
   group(
     'loginWithGoogle',
     () {
-      registerFallbackValue(OAuthCredential(providerId: '', signInMethod: ''));
+      registerFallbackValue(const OAuthCredential(providerId: '', signInMethod: ''));
       final userCredential = MockUserCredential();
       final user = MockUser();
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "1",
         name: "Test",
         document: "123",
@@ -638,7 +643,7 @@ void main() {
     'getLoggedUser',
     () {
       final user = MockUser();
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "1",
         name: "Test",
         document: "123",

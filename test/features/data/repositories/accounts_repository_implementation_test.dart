@@ -18,9 +18,9 @@ void main() {
   late INetworkInfo networkInfo;
 
   setUp(() {
-    datasource = new MockAccountDatasource();
-    networkInfo = new MockNetworkInfo();
-    repository = new AccountsRepositoryImplementation(datasource, networkInfo);
+    datasource = MockAccountDatasource();
+    networkInfo = MockNetworkInfo();
+    repository = AccountsRepositoryImplementation(datasource, networkInfo);
   });
 
   group(
@@ -30,7 +30,7 @@ void main() {
         'should return a list of account models when calls the datasource',
         () async {
           //Arrange
-          final tListOfAccounts = [
+          const tListOfAccounts = [
             AccountModel(
               id: "",
               name: "Test 1",
@@ -73,7 +73,7 @@ void main() {
           final result = await repository.getListOfAccounts();
 
           //Assert
-          expect(result, Right(tListOfAccounts));
+          expect(result, const Right(tListOfAccounts));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.getListOfAccounts()).called(1);
         }
@@ -116,7 +116,7 @@ void main() {
   group(
     'saveAccount',
     () {
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "",
         name: "Test 1",
         document: "123",
@@ -145,7 +145,7 @@ void main() {
           final result = await repository.saveAccount(tAccount);
 
           //Assert
-          expect(result, Right(tAccount));
+          expect(result, const Right(tAccount));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.saveAccount(tAccount)).called(1);
         }
@@ -189,8 +189,8 @@ void main() {
   group(
     'getAccount',
     () {
-      final uid = "1";
-      final tAccount = AccountModel(
+      const uid = "1";
+      const tAccount = AccountModel(
         id: uid,
         name: "Test 1",
         document: "123",
@@ -219,7 +219,7 @@ void main() {
           final result = await repository.getAccount(uid);
 
           //Assert
-          expect(result, Right(tAccount));
+          expect(result, const Right(tAccount));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.getAccount(uid)).called(1);
         }
@@ -278,11 +278,171 @@ void main() {
   );
 
   group(
+    'createAccountWithEmailAndPassword',
+    () {
+      const email = "test@test.com";
+      const password = "123456";
+      const tAccount = AccountModel(
+        id: "1",
+        name: "",
+        document: "",
+        email: email,
+        phone: "",
+        zip: "",
+        address: "",
+        number: "",
+        neighborhood: "",
+        city: "",
+        state: "",
+        isWorker: true,
+        description: "",
+        status: 0,
+        cause: "",
+      );
+
+      test(
+        'should return an AccountEntity when is a successful account creation',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => tAccount);
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, const Right(tAccount));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+
+      test(
+        'should return a NetworkFailure when network is disconnected',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => false);
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(NetworkFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verifyNever(() => datasource.createAccountWithEmailAndPassword(email, password));
+        }
+      );
+
+      test(
+        'should return a EmailAlreadyInUseFailure when call to datasource throws an WeakPasswordException',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenThrow(EmailAlreadyInUseException());
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(EmailAlreadyInUseFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+
+      test(
+        'should return a WeakPasswordFailure when call to datasource throws an WeakPasswordException',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenThrow(WeakPasswordException());
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(WeakPasswordFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+
+      test(
+        'should return a InvalidEmailFailure when call to datasource throws an InvalidEmailException',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenThrow(InvalidEmailException());
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(InvalidEmailFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+
+      test(
+        'should return a OperationNotAllowedFailure when call to datasource throws an OperationNotAllowedException',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenThrow(OperationNotAllowedException());
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(OperationNotAllowedFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+
+      test(
+        'should return a LoginFailure when call to datasource throws an LoginException',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenThrow(LoginException());
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(LoginFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+
+      test(
+        'should return a ServerFailure when call to datasource is unsuccessful with unknown error',
+        () async {
+          //Arrange
+          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+          when(() => datasource.createAccountWithEmailAndPassword(email, password)).thenThrow(ServerException());
+
+          //Act
+          final result = await repository.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, Left(ServerFailure()));
+          verify(() => networkInfo.isConnected).called(1);
+          verify(() => datasource.createAccountWithEmailAndPassword(email, password)).called(1);
+        }
+      );
+    }
+  );
+
+  group(
     'loginWithEmailAndPassword',
     () {
-      final email = "test@test.com";
-      final password = "123456";
-      final tAccount = AccountModel(
+      const email = "test@test.com";
+      const password = "123456";
+      const tAccount = AccountModel(
         id: "1",
         name: "",
         document: "",
@@ -311,7 +471,7 @@ void main() {
           final result = await repository.loginWithEmailAndPassword(email, password);
 
           //Assert
-          expect(result, Right(tAccount));
+          expect(result, const Right(tAccount));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.loginWithEmailAndPassword(email, password)).called(1);
         }
@@ -334,23 +494,6 @@ void main() {
       );
 
       test(
-        'should return a WeakPasswordFailure when call to datasource throws an WeakPasswordException',
-        () async {
-          //Arrange
-          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => datasource.loginWithEmailAndPassword(email, password)).thenThrow(WeakPasswordException());
-
-          //Act
-          final result = await repository.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, Left(WeakPasswordFailure()));
-          verify(() => networkInfo.isConnected).called(1);
-          verify(() => datasource.loginWithEmailAndPassword(email, password)).called(1);
-        }
-      );
-
-      test(
         'should return a InvalidEmailFailure when call to datasource throws an InvalidEmailException',
         () async {
           //Arrange
@@ -362,23 +505,6 @@ void main() {
 
           //Assert
           expect(result, Left(InvalidEmailFailure()));
-          verify(() => networkInfo.isConnected).called(1);
-          verify(() => datasource.loginWithEmailAndPassword(email, password)).called(1);
-        }
-      );
-
-      test(
-        'should return a OperationNotAllowedFailure when call to datasource throws an OperationNotAllowedException',
-        () async {
-          //Arrange
-          when(() => networkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => datasource.loginWithEmailAndPassword(email, password)).thenThrow(OperationNotAllowedException());
-
-          //Act
-          final result = await repository.loginWithEmailAndPassword(email, password);
-
-          //Assert
-          expect(result, Left(OperationNotAllowedFailure()));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.loginWithEmailAndPassword(email, password)).called(1);
         }
@@ -474,7 +600,7 @@ void main() {
   group(
     'loginWithGoogle',
     () {
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "1",
         name: "",
         document: "",
@@ -503,7 +629,7 @@ void main() {
           final result = await repository.loginWithGoogle();
 
           //Assert
-          expect(result, Right(tAccount));
+          expect(result, const Right(tAccount));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.loginWithGoogle()).called(1);
         }
@@ -700,7 +826,7 @@ void main() {
   group(
     'getLoggedUser',
     () {
-      final tAccount = AccountModel(
+      const tAccount = AccountModel(
         id: "1",
         name: "Test 1",
         document: "123",
@@ -729,7 +855,7 @@ void main() {
           final result = await repository.getLoggedUser();
 
           //Assert
-          expect(result, Right(tAccount));
+          expect(result, const Right(tAccount));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.getLoggedUser()).called(1);
         }

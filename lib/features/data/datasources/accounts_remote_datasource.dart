@@ -8,6 +8,8 @@ abstract class IAccountsRemoteDataSource {
 
   Future<AccountModel> getAccount(String uid);
 
+  Future<AccountModel> createAccountWithEmailAndPassword(String email, String password);
+
   Future<AccountModel> loginWithEmailAndPassword(String email, String password);
 
   Future<AccountModel> loginWithGoogle();
