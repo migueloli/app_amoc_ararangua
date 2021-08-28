@@ -1,7 +1,6 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
+import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_use_case.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/pages/services/store/services_store.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,37 +27,50 @@ void main() {
   group('searchServiceAccounts', () {
     test('should return a ServerFailure', () {
       //Arrange
-      when(() => useCase(NoParams())).thenAnswer((_) async => Left(ServerFailure()));
+      when(() => useCase()).thenAnswer((_) async => Left(ServerFailure()));
       //Act
       store.searchServiceAccounts();
       //Assert
       store.observer(
         onError: (failure) {
-          expect(failure, ServerFailure());
-          verify(() => useCase(NoParams())).called(1);
+          expect(failure, ServicesStore.serverFailureMessage);
+          verify(() => useCase()).called(1);
         }
       );
     });
 
     test('should return a NetworkFailure', () {
       //Arrange
-      when(() => useCase(NoParams())).thenAnswer((_) async => Left(NetworkFailure()));
+      when(() => useCase()).thenAnswer((_) async => Left(NetworkFailure()));
       //Act
       store.searchServiceAccounts();
       //Assert
       store.observer(
         onError: (failure) {
-          expect(failure, NetworkFailure());
-          verify(() => useCase(NoParams())).called(1);
+          expect(failure, ServicesStore.networkFailureMessage);
+          verify(() => useCase()).called(1);
+        }
+      );
+    });
+
+    test('should return a generic failure', () {
+      //Arrange
+      when(() => useCase()).thenAnswer((_) async => Left(LoginFailure()));
+      //Act
+      store.searchServiceAccounts();
+      //Assert
+      store.observer(
+        onError: (failure) {
+          expect(failure, ServicesStore.genericFailureMessage);
+          verify(() => useCase()).called(1);
         }
       );
     });
 
     test('should return a list of AccountEntity', () {
       //Arrange
-      final tListOfAccounts = [
+      const  tListOfAccounts = [
         AccountEntity(
-          id: "",
           name: "Test 1",
           document: "123",
           email: "test1@test.com",
@@ -75,7 +87,6 @@ void main() {
           cause: "Test 1",
         ),
         AccountEntity(
-          id: "",
           name: "Test 2",
           document: "321",
           email: "test2@test.com",
@@ -92,14 +103,14 @@ void main() {
           cause: "Test 2",
         ),
       ];
-      when(() => useCase(NoParams())).thenAnswer((_) async => Right(tListOfAccounts));
+      when(() => useCase()).thenAnswer((_) async => const Right(tListOfAccounts));
       //Act
       store.searchServiceAccounts();
       //Assert
       store.observer(
         onState: (state) {
           expect(state, tListOfAccounts);
-          verify(() => useCase(NoParams())).called(1);
+          verify(() => useCase()).called(1);
         }
       );
     });

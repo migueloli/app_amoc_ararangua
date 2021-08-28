@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../core/custom_methods/try_cast.dart';
 import '../../domain/entities/account_entity.dart';
 
 class AccountModel extends AccountEntity {
@@ -39,21 +40,21 @@ class AccountModel extends AccountEntity {
   );
 
   factory AccountModel.fromJson(Map<String, dynamic> json, {String? id}) => AccountModel(
-    id: id ?? json['id'],
-    name: json['name'],
-    document: json['document'],
-    email: json['email'],
-    phone: json['phone'],
-    zip: json['zip'],
-    address: json['address'],
-    number: json['number'],
-    neighborhood: json['neighborhood'],
-    city: json['city'],
-    state: json['state'],
-    isWorker: json['is_worker'],
-    description: json['description'],
-    status: json['status'] ?? 1,
-    cause: json['cause'] ?? '',
+    id: id ?? tryCast<String>(json['id'], ''),
+    name: tryCast<String>(json['name'], ''),
+    document: tryCast<String>(json['document'], ''),
+    email: tryCast<String>(json['email'], ''),
+    phone: tryCast<String>(json['phone'], ''),
+    zip: tryCast<String>(json['zip'], ''),
+    address: tryCast<String>(json['address'], ''),
+    number: tryCast<String>(json['number'], ''),
+    neighborhood: tryCast<String>(json['neighborhood'], ''),
+    city: tryCast<String>(json['city'], ''),
+    state: tryCast<String>(json['state'], ''),
+    isWorker: tryCast<bool>(json['is_worker'], false),
+    description: tryCast<String>(json['description'], ''),
+    status: tryCast<int>(json['status'], 1),
+    cause: tryCast<String>(json['cause'], ''),
   );
 
   factory AccountModel.fromUser(User user) => AccountModel(

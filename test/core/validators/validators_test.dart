@@ -9,13 +9,13 @@ void main() {
         'name invalid because length smaller than 3 (Jo)',
         () {
           //Arrange
-          final name = 'Jo';
+          const name = 'Jo';
 
           //Act
           final result = validateName(name);
 
           //Assert
-          expect(result, INVALID_SHORT_NAME_MESSAGE);
+          expect(result, invalidShortNameMessage);
         }
       );
 
@@ -23,7 +23,7 @@ void main() {
         'name valid (João)',
         () {
           //Arrange
-          final name = 'João';
+          const name = 'João';
 
           //Act
           final result = validateName(name);
@@ -42,13 +42,13 @@ void main() {
         'CPF invalid (000.000.000-00)',
         () {
           //Arrange
-          final document = '000.000.000-00';
+          const document = '000.000.000-00';
 
           //Act
           final result = validateDocument(document);
 
           //Assert
-          expect(result, INVALID_DOCUMENT_MESSAGE);
+          expect(result, invalidDocumentMessage);
         }
       );
 
@@ -56,7 +56,7 @@ void main() {
         'CPF valid (091.748.650-13)',
         () {
           //Arrange
-          final document = '091.748.650-13';
+          const document = '091.748.650-13';
 
           //Act
           final result = validateDocument(document);
@@ -70,13 +70,13 @@ void main() {
         'CNPJ invalid (00.000.000/0000-00)',
         () {
           //Arrange
-          final document = '00.000.000/0000-00';
+          const document = '00.000.000/0000-00';
 
           //Act
           final result = validateDocument(document);
 
           //Assert
-          expect(result, INVALID_DOCUMENT_MESSAGE);
+          expect(result, invalidDocumentMessage);
         }
       );
 
@@ -84,7 +84,7 @@ void main() {
         'CNPJ valid (21.629.800/0001-46)',
         () {
           //Arrange
-          final document = '21.629.800/0001-46';
+          const document = '21.629.800/0001-46';
 
           //Act
           final result = validateDocument(document);
@@ -103,13 +103,13 @@ void main() {
         'phone invalid ((99)9999)',
         () {
           //Arrange
-          final phone = '(99)9999';
+          const phone = '(99)9999';
 
           //Act
           final result = validatePhone(phone);
 
           //Assert
-          expect(result, INVALID_PHONE_MESSAGE);
+          expect(result, invalidPhoneMessage);
         }
       );
 
@@ -117,7 +117,7 @@ void main() {
         'phone valid with parentheses with dash ((99) 99999-9999)',
         () {
           //Arrange
-          final phone = '(99) 99999-9999';
+          const phone = '(99) 99999-9999';
 
           //Act
           final result = validatePhone(phone);
@@ -131,7 +131,7 @@ void main() {
         'phone valid with parentheses without dash ((99) 999999999)',
         () {
           //Arrange
-          final phone = '(99) 999999999';
+          const phone = '(99) 999999999';
 
           //Act
           final result = validatePhone(phone);
@@ -145,7 +145,7 @@ void main() {
         'phone valid without parentheses without dash (99999999999)',
         () {
           //Arrange
-          final phone = '99999999999';
+          const phone = '99999999999';
 
           //Act
           final result = validatePhone(phone);
@@ -164,13 +164,13 @@ void main() {
         'zip code invalid (88.)',
         () {
           //Arrange
-          final zip = '88.';
+          const zip = '88.';
 
           //Act
           final result = validateZip(zip);
 
           //Assert
-          expect(result, INVALID_ZIP_CODE_MESSAGE);
+          expect(result, invalidZipCodeMessage);
         }
       );
 
@@ -178,7 +178,7 @@ void main() {
         'zip code valid (88.906-664)',
         () {
           //Arrange
-          final zip = '88.906-664';
+          const zip = '88.906-664';
 
           //Act
           final result = validateZip(zip);
@@ -197,13 +197,13 @@ void main() {
         'address invalid because length smaller than 6 (Rua)',
         () {
           //Arrange
-          final address = 'Rua';
+          const address = 'Rua';
 
           //Act
           final result = validateAddress(address);
 
           //Assert
-          expect(result, INVALID_SHORT_ADDRESS_MESSAGE);
+          expect(result, invalidShortAddressMessage);
         }
       );
 
@@ -211,7 +211,7 @@ void main() {
         'address valid (João)',
         () {
           //Arrange
-          final address = 'Rua Teste Novembro';
+          const address = 'Rua Teste Novembro';
 
           //Act
           final result = validateAddress(address);
@@ -230,13 +230,13 @@ void main() {
         'neighborhood invalid because length smaller than 4 (Col)',
         () {
           //Arrange
-          final address = 'Col';
+          const address = 'Col';
 
           //Act
           final result = validateNeighborhood(address);
 
           //Assert
-          expect(result, INVALID_SHORT_NEIGHBORHOOD_MESSAGE);
+          expect(result, invalidShortNeighborhoodMessage);
         }
       );
 
@@ -244,7 +244,7 @@ void main() {
         'address valid (Coloninha)',
         () {
           //Arrange
-          final address = 'Coloninha';
+          const address = 'Coloninha';
 
           //Act
           final result = validateNeighborhood(address);
@@ -263,13 +263,13 @@ void main() {
         'e-mail invalid (teste@)',
         () {
           //Arrange
-          final email = 'teste@';
+          const email = 'teste@';
 
           //Act
           final result = validateEmail(email);
 
           //Assert
-          expect(result, INVALID_EMAIL_MESSAGE);
+          expect(result, invalidEmailMessage);
         }
       );
 
@@ -277,7 +277,7 @@ void main() {
         'e-mail valid (teste@teste.com)',
         () {
           //Arrange
-          final email = 'teste@teste.com';
+          const email = 'teste@teste.com';
 
           //Act
           final result = validateEmail(email);
@@ -296,13 +296,13 @@ void main() {
         'password invalid (123)',
         () {
           //Arrange
-          final password = '123';
+          const password = '123';
 
           //Act
           final result = validatePassword(password);
 
           //Assert
-          expect(result, INVALID_SHORT_PASSWORD_MESSAGE);
+          expect(result, invalidShortPasswordMessage);
         }
       );
 
@@ -310,7 +310,7 @@ void main() {
         'password valid (123456)',
         () {
           //Arrange
-          final password = '123456';
+          const password = '123456';
 
           //Act
           final result = validatePassword(password);
@@ -329,13 +329,13 @@ void main() {
         'description invalid because length smaller than 20 (Teste)',
         () {
           //Arrange
-          final description = 'Teste';
+          const description = 'Teste';
 
           //Act
           final result = validateDescription(description);
 
           //Assert
-          expect(result, INVALID_SHORT_DESCRIPTION_MESSAGE);
+          expect(result, invalidShortDescriptionMessage);
         }
       );
 
@@ -343,7 +343,7 @@ void main() {
         'description valid',
         () {
           //Arrange
-          final description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ullamcorper imperdiet arcu, a posuere erat auctor ut. Maecenas vel ornare.';
+          const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ullamcorper imperdiet arcu, a posuere erat auctor ut. Maecenas vel ornare.';
 
           //Act
           final result = validateDescription(description);

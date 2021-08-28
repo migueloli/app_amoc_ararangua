@@ -37,7 +37,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
     children: _createMenu(context, entity),
   );
 
-  Widget _onLoading(BuildContext context) => Center(
+  Widget _onLoading(BuildContext context) => const Center(
     child: CircularProgressIndicator()
   );
 
@@ -51,10 +51,10 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
       fontSize: 16,
       fontWeight: FontWeight.bold,
     );
-    var widgets = <Widget>[];
+    final widgets = <Widget>[];
 
     widgets.addAll([
-      SizedBox(height: 20,),
+      const SizedBox(height: 20,),
       SwitchListTile(
         activeColor: Theme.of(context).accentColor,
         value: Theme.of(context).brightness == Brightness.dark,
@@ -63,8 +63,8 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
           style: textStyle,
         ),
         onChanged: (value) => value
-            ? DynamicTheme.of(context)?.setTheme(AppThemes.DARK_THEME)
-            : DynamicTheme.of(context)?.setTheme(AppThemes.LIGHT_THEME),
+            ? DynamicTheme.of(context)?.setTheme(AppThemes.darkTheme)
+            : DynamicTheme.of(context)?.setTheme(AppThemes.lightTheme),
       ),
     ]);
 
@@ -75,6 +75,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
     }
 
     widgets.addAll([
+      const SizedBox(height: 8,),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Text(
@@ -94,7 +95,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
   }
 
   List<Widget> _disconnectedItems(TextStyle textStyle) => [
-    Divider(),
+    const Divider(),
     MenuButtonWidget(
       label: 'Login',
       icon: Icons.login,
@@ -103,13 +104,13 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
   ];
 
   List<Widget> _connectedItems(TextStyle textStyle) => [
-    Divider(),
+    const Divider(),
     MenuButtonWidget(
       label: 'Perfil',
       icon: Icons.person,
       onPressed: () {},
     ),
-    Divider(),
+    const Divider(),
     MenuButtonWidget(
       label: 'Sair',
       icon: Icons.logout,

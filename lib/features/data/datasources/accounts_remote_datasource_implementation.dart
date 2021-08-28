@@ -17,10 +17,13 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
   @override
   Future<List<AccountModel>> getListOfAccounts() async {
     try {
-      final response = await store.collection('users').where('is_worker', isEqualTo: true).where('status', isEqualTo: 1).get();
+      final response = await store.collection('users')
+          .where('is_worker', isEqualTo: true)
+          .where('status', isEqualTo: 1)
+          .get();
       final accountList = <AccountModel>[];
 
-      for(var doc in response.docs) {
+      for(final doc in response.docs) {
         accountList.add(AccountModel.fromJson(doc.data()));
       }
 
@@ -51,18 +54,17 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
   Future<AccountModel> getAccount(String uid) async {
     try {
       final response = await store.collection('users').where('id', isEqualTo: uid).get();
-      if(response.docs.length <= 0) throw UserNotFoundException();
+      if(response.docs.isEmpty) throw UserNotFoundException();
       return AccountModel.fromJson(response.docs.first.data());
     } catch(e) {
-      if(e is UserNotFoundException)
-        throw e;
+      if(e is UserNotFoundException) rethrow;
 
       throw ServerException;
     }
   }
 
   @override
-  Future<AccountModel> loginWithEmailAndPassword(String email, String password) async {
+  Future<AccountModel> createAccountWithEmailAndPassword(String email, String password) async {
     try {
       final credential = await auth.createUserWithEmailAndPassword(
         email: email,
@@ -78,17 +80,14 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
       throw LoginException();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        return await _loginWithEmailAndPassword(email, password);
-      }
-
       throw _prepareFirebaseException(e.code);
     } catch (e) {
       throw LoginException();
     }
   }
 
-  Future<AccountModel> _loginWithEmailAndPassword(String email, String password) async {
+  @override
+  Future<AccountModel> loginWithEmailAndPassword(String email, String password) async {
     try {
       final credential = await auth.signInWithEmailAndPassword(
         email: email,
@@ -152,6 +151,8 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
   Exception _prepareFirebaseException(String code) {
     switch(code) {
+      case 'email-already-in-use':
+        return EmailAlreadyInUseException();
       case 'weak-password':
         return WeakPasswordException();
       case 'invalid-email':

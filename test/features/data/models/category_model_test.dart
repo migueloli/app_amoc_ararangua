@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../fixtures/fixture_reader.dart';
 void main() {
 
-  final tCategoryModel = CategoryModel(
+  const tCategoryModel = CategoryModel(
     id: "",
     description: "Test Category",
   );
@@ -26,7 +26,7 @@ void main() {
         'should return a valid model when the JSON is valid',
         () async {
           //Arrange
-          final Map<String, dynamic> jsonMap = json.decode(fixture('category.json'));
+          final Map<String, dynamic> jsonMap = json.decode(fixture('category.json')) as Map<String, dynamic>;
 
           //Act
           final result = CategoryModel.fromJson(jsonMap);

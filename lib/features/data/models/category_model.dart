@@ -1,3 +1,4 @@
+import '../../../core/custom_methods/try_cast.dart';
 import '../../domain/entities/category_entity.dart';
 
 class CategoryModel extends CategoryEntity {
@@ -10,9 +11,9 @@ class CategoryModel extends CategoryEntity {
     description: description,
   );
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-    id: json['id'],
-    description: json['description'],
+  factory CategoryModel.fromJson(Map<String, dynamic> json, {String? id}) => CategoryModel(
+    id: id ?? tryCast<String>(json['id'], ''),
+    description: tryCast<String>(json['description'], ''),
   );
 
   Map<String, dynamic> toJson() => {

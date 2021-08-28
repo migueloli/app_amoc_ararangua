@@ -1,20 +1,19 @@
-import 'package:flutter_triple/flutter_triple.dart';
+import 'package:mobx_triple/mobx_triple.dart';
 
 import '../../../../../../core/errors/failures.dart';
-import '../../../../../../core/usecases/usecase.dart';
 import '../../../../../domain/entities/account_entity.dart';
-import '../../../../../domain/usecases/get_logged_user_usecase.dart';
+import '../../../../../domain/usecases/get_logged_user_use_case.dart';
 
-class AccountStore extends NotifierStore<Failure, AccountEntity> {
+class AccountStore extends MobXStore<Failure, AccountEntity> {
 
   final GetLoggedUserUseCase getLoggedUserUseCase;
 
   AccountStore(this.getLoggedUserUseCase) : super(AccountEntity.empty());
 
-  getLoggedUser() async {
+  Future<void> getLoggedUser() async {
     setLoading(true);
 
-    final result = await getLoggedUserUseCase(NoParams());
+    final result = await getLoggedUserUseCase();
     result.fold(
       setError,
       update,

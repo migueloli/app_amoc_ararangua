@@ -15,7 +15,7 @@ void main() {
   group('changePage', () {
     test('should return an int', () {
       //Arrange
-      var tPage = 1;
+      const tPage = 1;
       //Act
       store.changePage(tPage);
       //Assert

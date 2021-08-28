@@ -1,7 +1,6 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_logged_user_usecase.dart';
+import 'package:app_amoc_ararangua/features/domain/usecases/get_logged_user_use_case.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/pages/account/store/account_store.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,36 +27,35 @@ void main() {
   group('getLoggedUser', () {
     test('should return a UserNotFoundFailure', () {
       //Arrange
-      when(() => useCase(NoParams())).thenAnswer((_) async => Left(UserNotFoundFailure()));
+      when(() => useCase()).thenAnswer((_) async => Left(UserNotFoundFailure()));
       //Act
       store.getLoggedUser();
       //Assert
       store.observer(
         onError: (failure) {
           expect(failure, UserNotFoundFailure());
-          verify(() => useCase(NoParams())).called(1);
+          verify(() => useCase()).called(1);
         }
       );
     });
 
     test('should return a NetworkFailure', () {
       //Arrange
-      when(() => useCase(NoParams())).thenAnswer((_) async => Left(NetworkFailure()));
+      when(() => useCase()).thenAnswer((_) async => Left(NetworkFailure()));
       //Act
       store.getLoggedUser();
       //Assert
       store.observer(
         onError: (failure) {
           expect(failure, NetworkFailure());
-          verify(() => useCase(NoParams())).called(1);
+          verify(() => useCase()).called(1);
         }
       );
     });
 
     test('should return an AccountEntity', () {
       //Arrange
-      final tAccount = AccountEntity(
-        id: "",
+      const tAccount = AccountEntity(
         name: "Test 1",
         document: "123",
         email: "test1@test.com",
@@ -73,14 +71,14 @@ void main() {
         status: 0,
         cause: "Test 1",
       );
-      when(() => useCase(NoParams())).thenAnswer((_) async => Right(tAccount));
+      when(() => useCase()).thenAnswer((_) async => const Right(tAccount));
       //Act
       store.getLoggedUser();
       //Assert
       store.observer(
         onState: (state) {
           expect(state, tAccount);
-          verify(() => useCase(NoParams())).called(1);
+          verify(() => useCase()).called(1);
         }
       );
     });

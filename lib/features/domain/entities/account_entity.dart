@@ -36,8 +36,7 @@ class AccountEntity extends Equatable {
     required this.cause,
   });
 
-  factory AccountEntity.empty() => AccountEntity(
-    id: '',
+  factory AccountEntity.empty() => const AccountEntity(
     name: '',
     document: '',
     email: '',

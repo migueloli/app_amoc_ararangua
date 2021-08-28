@@ -17,8 +17,7 @@ class CategoriesRepositoryImplementation implements ICategoriesRepository {
   Future<Either<Failure, List<CategoryEntity>>> getListOfCategories() async {
     try {
       final networkConnected = await networkInfo.isConnected;
-      if(!networkConnected)
-        return Left(NetworkFailure());
+      if(!networkConnected) return Left(NetworkFailure());
 
       final result = await datasource.getListOfCategories();
       return Right(result);

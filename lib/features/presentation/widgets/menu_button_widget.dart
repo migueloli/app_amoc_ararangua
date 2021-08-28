@@ -16,6 +16,7 @@ class MenuButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed,
       child: Container(
         margin: const EdgeInsets.all(16),
         child: Row(
@@ -40,7 +41,6 @@ class MenuButtonWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: onPressed,
     );
   }
 }

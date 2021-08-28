@@ -1,31 +1,30 @@
-import 'package:flutter_triple/flutter_triple.dart';
+import 'package:mobx_triple/mobx_triple.dart';
 
 import '../../../../../../core/errors/failures.dart';
-import '../../../../../../core/usecases/usecase.dart';
 import '../../../../../domain/entities/account_entity.dart';
-import '../../../../../domain/usecases/get_accounts_usecase.dart';
+import '../../../../../domain/usecases/get_accounts_use_case.dart';
 
-class ServicesStore extends NotifierStore<String, List<AccountEntity>> {
+class ServicesStore extends MobXStore<String, List<AccountEntity>> {
 
   final GetAccountsUseCase getAccountUseCase;
 
   ServicesStore(this.getAccountUseCase) : super([]);
 
-  searchServiceAccounts() async {
+  Future<void> searchServiceAccounts() async {
     setLoading(true);
 
-    final response = await getAccountUseCase(NoParams());
+    final response = await getAccountUseCase();
     response.fold(
       (failure) {
         switch(failure.runtimeType) {
           case NetworkFailure:
-            setError('Não foi possível conectar a internet, verifique as conexões do aparelho.');
+            setError(networkFailureMessage);
             break;
           case ServerFailure:
-            setError('Ocorreu um erro na comunicação com o servidor, tente novamente.');
+            setError(serverFailureMessage);
             break;
           default:
-            setError('Ocorreu um erro, tente novamente.');
+            setError(genericFailureMessage);
             break;
         }
       },
@@ -34,4 +33,8 @@ class ServicesStore extends NotifierStore<String, List<AccountEntity>> {
 
     setLoading(false);
   }
+
+  static const networkFailureMessage = 'Não foi possível conectar a internet, verifique as conexões do aparelho.';
+  static const serverFailureMessage = 'Ocorreu um erro na comunicação com o servidor, tente novamente.';
+  static const genericFailureMessage = 'Ocorreu um erro, tente novamente.';
 }

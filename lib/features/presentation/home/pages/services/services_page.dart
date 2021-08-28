@@ -38,13 +38,13 @@ class _ServicesPageState extends ModularState<ServicesPage, ServicesStore> {
       title: Text(state[index].name),
       subtitle: Text(state[index].phone),
     ),
-    separatorBuilder: (_, index) => Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    separatorBuilder: (_, index) => const Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Divider(),
     ),
   );
 
-  Widget _onLoading(BuildContext context) => Center(
+  Widget _onLoading(BuildContext context) => const Center(
     child: CircularProgressIndicator()
   );
 

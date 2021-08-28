@@ -18,9 +18,9 @@ void main() {
   late INetworkInfo networkInfo;
 
   setUp(() {
-    datasource = new MockCategoriesDatasource();
-    networkInfo = new MockNetworkInfo();
-    repository = new CategoriesRepositoryImplementation(datasource, networkInfo);
+    datasource = MockCategoriesDatasource();
+    networkInfo = MockNetworkInfo();
+    repository = CategoriesRepositoryImplementation(datasource, networkInfo);
   });
 
   group(
@@ -30,7 +30,7 @@ void main() {
         'should return a list of categories models when calls the datasource',
         () async {
           //Arrange
-          final tListOfCategories = [
+          const tListOfCategories = [
             CategoryModel(id: "", description: "Test Category 1"),
             CategoryModel(id: "", description: "Test Category 2"),
           ];
@@ -42,7 +42,7 @@ void main() {
           final result = await repository.getListOfCategories();
 
           //Assert
-          expect(result, Right(tListOfCategories));
+          expect(result, const Right(tListOfCategories));
           verify(() => networkInfo.isConnected).called(1);
           verify(() => datasource.getListOfCategories()).called(1);
         }

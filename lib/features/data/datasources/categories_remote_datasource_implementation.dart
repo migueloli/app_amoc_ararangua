@@ -16,7 +16,7 @@ class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSour
       final response = await store.collection('categories').get();
 
       final categoriesList = <CategoryModel>[];
-      for(var doc in response.docs) {
+      for(final doc in response.docs) {
         categoriesList.add(CategoryModel.fromJson(doc.data()));
       }
 

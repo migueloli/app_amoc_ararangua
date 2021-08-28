@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../domain/usecases/get_accounts_usecase.dart';
-import '../../domain/usecases/get_logged_user_usecase.dart';
+import '../../domain/usecases/get_accounts_use_case.dart';
+import '../../domain/usecases/get_logged_user_use_case.dart';
 import 'home_page.dart';
 import 'pages/account/store/account_store.dart';
 import 'pages/services/store/services_store.dart';

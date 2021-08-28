@@ -42,7 +42,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
     selectedIndex: state,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     onItemSelected: (i) => _pageController.animateToPage(i,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.linearToEaseOut
     ),
     items: _getBottomNavyBarItems(context),
@@ -50,15 +50,15 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
 
   List<BottomNavyBarItem> _getBottomNavyBarItems(BuildContext context) => [
     BottomNavyBarItem(
-      icon: Icon(Icons.business),
-      title: Text('Serviços'),
+      icon: const Icon(Icons.business),
+      title: const Text('Serviços'),
       textAlign: TextAlign.center,
       activeColor: Theme.of(context).accentColor,
       inactiveColor: Theme.of(context).accentColor,
     ),
     BottomNavyBarItem(
-      icon: Icon(Icons.person_pin_circle),
-      title: Text('Conta'),
+      icon: const Icon(Icons.person_pin_circle),
+      title: const Text('Conta'),
       textAlign: TextAlign.center,
       activeColor: Theme.of(context).accentColor,
       inactiveColor: Theme.of(context).accentColor,

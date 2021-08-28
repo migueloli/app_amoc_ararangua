@@ -1,8 +1,7 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
 import 'package:app_amoc_ararangua/features/domain/repositories/account_repository.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_usecase.dart';
+import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -26,9 +25,8 @@ void main() {
           'should get a list of accounts from the repository',
           () async {
             //Arrange
-            final tListOfAccounts = [
+            const tListOfAccounts = [
               AccountEntity(
-                id: "",
                 name: "Test 1",
                 document: "123",
                 email: "test1@test.com",
@@ -45,7 +43,6 @@ void main() {
                 cause: "Test 1",
               ),
               AccountEntity(
-                id: "",
                 name: "Test 2",
                 document: "321",
                 email: "test2@test.com",
@@ -62,15 +59,14 @@ void main() {
                 cause: "Test 2",
               ),
             ];
-            final tNoParam = NoParams();
 
-            when(repository.getListOfAccounts).thenAnswer((_) async => Right(tListOfAccounts));
+            when(repository.getListOfAccounts).thenAnswer((_) async => const Right(tListOfAccounts));
 
             //Act
-            final result = await usecase(tNoParam);
+            final result = await usecase();
 
             //Assert
-            expect(result, Right(tListOfAccounts));
+            expect(result, const Right(tListOfAccounts));
             verify(() => repository.getListOfAccounts()).called(1);
           },
         );
@@ -81,16 +77,15 @@ void main() {
     'GetAccountsUseCase failure',
     () {
       test(
-        'should get a ServerFailure when don\'t succeed',
+        "should get a ServerFailure when don't succeed",
         () async {
           //Arrange
           final tServerFailure = ServerFailure();
-          final tNoParam = NoParams();
 
           when(repository.getListOfAccounts).thenAnswer((_) async => Left(tServerFailure));
 
           //Act
-          final result = await usecase(tNoParam);
+          final result = await usecase();
 
           //Assert
           expect(result, Left(tServerFailure));
@@ -103,12 +98,11 @@ void main() {
         () async {
           //Arrange
           final tNetworkFailure = NetworkFailure();
-          final tNoParam = NoParams();
 
           when(repository.getListOfAccounts).thenAnswer((_) async => Left(tNetworkFailure));
 
           //Act
-          final result = await usecase(tNoParam);
+          final result = await usecase();
 
           //Assert
           expect(result, Left(tNetworkFailure));

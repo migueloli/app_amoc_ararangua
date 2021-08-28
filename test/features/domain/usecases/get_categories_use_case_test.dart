@@ -1,8 +1,7 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
-import 'package:app_amoc_ararangua/core/usecases/usecase.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/category_entity.dart';
 import 'package:app_amoc_ararangua/features/domain/repositories/categories_repository.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_categories_usecase.dart';
+import 'package:app_amoc_ararangua/features/domain/usecases/get_categories_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -26,19 +25,18 @@ void main() {
         'should get a list of categories from the repository',
         () async {
           //Arrange
-          final tListOfCategories = [
+          const tListOfCategories = [
             CategoryEntity(id: "", description: 'Test Category 1'),
             CategoryEntity(id: "", description: 'Test Category 2'),
           ];
-          final tNoParam = NoParams();
 
-          when(repository.getListOfCategories).thenAnswer((_) async => Right(tListOfCategories));
+          when(repository.getListOfCategories).thenAnswer((_) async => const Right(tListOfCategories));
 
           //Act
-          final result = await usecase(tNoParam);
+          final result = await usecase();
 
           //Assert
-          expect(result, Right(tListOfCategories));
+          expect(result, const Right(tListOfCategories));
           verify(() => repository.getListOfCategories()).called(1);
         },
       );
@@ -49,16 +47,15 @@ void main() {
     'GetCategoriesUseCase failure',
     () {
       test(
-        'should get a ServerFailure when don\'t succeed',
+        "should get a ServerFailure when don't succeed",
         () async {
           //Arrange
           final tServerFailure = ServerFailure();
-          final tNoParam = NoParams();
 
           when(repository.getListOfCategories).thenAnswer((_) async => Left(tServerFailure));
 
           //Act
-          final result = await usecase(tNoParam);
+          final result = await usecase();
 
           //Assert
           expect(result, Left(tServerFailure));
@@ -71,12 +68,11 @@ void main() {
         () async {
           //Arrange
           final tNetworkFailure = NetworkFailure();
-          final tNoParam = NoParams();
 
           when(repository.getListOfCategories).thenAnswer((_) async => Left(tNetworkFailure));
 
           //Act
-          final result = await usecase(tNoParam);
+          final result = await usecase();
 
           //Assert
           expect(result, Left(tNetworkFailure));

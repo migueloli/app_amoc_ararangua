@@ -15,7 +15,7 @@ void main() {
   group(
     'getListOfCategories',
     () {
-      final tListOfCategories = [
+      const tListOfCategories = [
         CategoryModel(id: "", description: "Test Category 1"),
         CategoryModel(id: "", description: "Test Category 2"),
       ];
@@ -24,7 +24,9 @@ void main() {
         'should return an List<CategoryModel>',
         () async {
           //Arrange
-          tListOfCategories.forEach((tAccount) => mockFirebaseStore.collection('categories').add(tAccount.toJson()));
+          for(final tCategory in tListOfCategories) {
+            mockFirebaseStore.collection('categories').add(tCategory.toJson());
+          }
 
           //Act
           final result = await dataSource.getListOfCategories();

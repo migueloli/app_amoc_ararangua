@@ -1,9 +1,9 @@
-import 'package:flutter_triple/flutter_triple.dart';
+import 'package:mobx_triple/mobx_triple.dart';
 
 import '../../../../core/errors/failures.dart';
 
-class HomeStore extends NotifierStore<Failure, int>{
+class HomeStore extends MobXStore<Failure, int>{
   HomeStore() : super(0);
 
-  changePage(int page) => update(page);
+  void changePage(int page) => update(page);
 }

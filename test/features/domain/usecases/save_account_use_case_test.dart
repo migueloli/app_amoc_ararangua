@@ -1,7 +1,7 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
 import 'package:app_amoc_ararangua/features/domain/repositories/account_repository.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/save_account_usecase.dart';
+import 'package:app_amoc_ararangua/features/domain/usecases/save_account_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -18,8 +18,7 @@ void main() {
     usecase = SaveAccountUseCase(repository);
   });
 
-  final tAccount = AccountEntity(
-    id: "",
+  const tAccount = AccountEntity(
     name: "Test 1",
     document: "123",
     email: "test1@test.com",
@@ -43,13 +42,13 @@ void main() {
           'should get a list of accounts from the repository',
           () async {
             //Arrange
-            when(() => repository.saveAccount(tAccount)).thenAnswer((_) async => Right(tAccount));
+            when(() => repository.saveAccount(tAccount)).thenAnswer((_) async => const Right(tAccount));
 
             //Act
             final result = await usecase(tAccount);
 
             //Assert
-            expect(result, Right(tAccount));
+            expect(result, const Right(tAccount));
             verify(() => repository.saveAccount(tAccount)).called(1);
           },
         );
@@ -60,7 +59,7 @@ void main() {
     'SaveAccountUseCase failure',
     () {
       test(
-        'should get a ServerFailure when don\'t succeed',
+        "should get a ServerFailure when don't succeed",
         () async {
           //Arrange
           final tServerFailure = ServerFailure();
