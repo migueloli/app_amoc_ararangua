@@ -11,8 +11,8 @@ class CategoryModel extends CategoryEntity {
     description: description,
   );
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json, {String? id}) => CategoryModel(
-    id: id ?? tryCast<String>(json['id'], ''),
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
+    id: tryCast<String>(json['id'], ''),
     description: tryCast<String>(json['description'], ''),
   );
 
