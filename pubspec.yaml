@@ -26,6 +26,7 @@ dependencies:
   dartz: ^0.10.0
   dynamic_themes: ^1.1.0
   equatable: ^2.0.3
+  eva_icons_flutter: ^3.0.0
   firebase_auth: ^3.0.2
   firebase_core: ^1.5.0
   firebase_crashlytics: ^2.2.0
