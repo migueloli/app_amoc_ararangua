@@ -14,14 +14,14 @@ class ServicesPage extends StatefulWidget {
 class _ServicesPageState extends ModularState<ServicesPage, ServicesStore> {
   @override
   void initState() {
-    controller.searchServiceAccounts();
+    store.searchServiceAccounts();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ScopedBuilder(
-      store: controller,
+      store: store,
       onState: _onState,
       onLoading: _onLoading,
       onError: _onError,

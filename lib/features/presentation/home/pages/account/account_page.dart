@@ -19,14 +19,14 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
 
   @override
   void initState() {
-    controller.getLoggedUser();
+    store.getLoggedUser();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ScopedBuilder(
-      store: controller,
+      store: store,
       onState: _onState,
       onLoading: _onLoading,
       onError: _onError,

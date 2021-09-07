@@ -23,11 +23,11 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
       appBar: AppBarWidget(title: 'AMOC'),
       body: PageView(
         controller: _pageController,
-        onPageChanged: controller.changePage,
+        onPageChanged: store.changePage,
         children: _getPages(),
       ),
       bottomNavigationBar: ScopedBuilder(
-        store: controller,
+        store: store,
         onState: _onState,
       ),
     );
