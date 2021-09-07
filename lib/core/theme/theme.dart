@@ -41,6 +41,11 @@ final themes = {
     primaryColorLight: amocMainBlue[900],
     accentColor: amocMainBlue[900],
     dividerColor: amocMainBlue[900],
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: amocMainBlue[900],
+      selectionColor: amocMainBlue[900],
+      selectionHandleColor: amocMainBlue[900],
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: amocMainBlue[900],
       centerTitle: true,
@@ -63,6 +68,11 @@ final themes = {
     primaryColorLight: amocMainYellow[900],
     accentColor: amocMainYellow[900],
     dividerColor: amocMainYellow[900],
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: amocMainYellow[900],
+      selectionColor: amocMainYellow[900],
+      selectionHandleColor: amocMainYellow[900],
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: amocMainBlue[900],
       centerTitle: true,
