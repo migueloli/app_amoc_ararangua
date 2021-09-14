@@ -8,6 +8,7 @@ import '../../../core/network/network_info_implementation.dart';
 import '../../data/datasources/accounts_remote_datasource_implementation.dart';
 import '../../data/repositories/accounts_repository_implementation.dart';
 import '../home/home_module.dart';
+import '../login/login_module.dart';
 
 class AppModule extends Module {
   @override
@@ -24,6 +25,7 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
     ModuleRoute(Modular.initialRoute, module: HomeModule()),
+    ModuleRoute("${Modular.initialRoute}login", module: LoginModule()),
   ];
 
 }
