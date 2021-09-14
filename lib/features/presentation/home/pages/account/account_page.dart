@@ -1,13 +1,14 @@
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
 
-import '../../../../../core/errors/failures.dart';
+import '../../../../../core/states/bloc_state.dart';
 import '../../../../../core/theme/theme.dart';
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/menu_button_widget.dart';
-import 'store/account_store.dart';
+import 'bloc/account_bloc.dart';
+import 'bloc/events/account_bloc_events.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -15,21 +16,23 @@ class AccountPage extends StatefulWidget {
   _AccountPageState createState() => _AccountPageState();
 }
 
-class _AccountPageState extends ModularState<AccountPage, AccountStore> {
+class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
 
   @override
   void initState() {
-    store.getLoggedUser();
+    store.add(const GetLoggedUserBlocEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScopedBuilder(
-      store: store,
-      onState: _onState,
-      onLoading: _onLoading,
-      onError: _onError,
+    return BlocBuilder(
+      bloc: bloc,
+      builder: (context, state) {
+        if(state is SuccessBlocState) return _onState(context, state.value as AccountEntity);
+        if(state is ErrorBlocState) return _onError(context);
+        return _onLoading(context);
+      }
     );
   }
 
@@ -41,7 +44,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountStore> {
     child: CircularProgressIndicator()
   );
 
-  Widget _onError(BuildContext context, Failure? failure) => ListView(
+  Widget _onError(BuildContext context) => ListView(
     children: _createMenu(context, null),
   );
 

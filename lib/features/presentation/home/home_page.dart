@@ -1,12 +1,13 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
 
+import '../../../core/states/bloc_state.dart';
 import '../widgets/app_bar_widget.dart';
+import 'bloc/events/home_bloc_event.dart';
+import 'bloc/home_bloc.dart';
 import 'pages/account/account_page.dart';
 import 'pages/services/services_page.dart';
-import 'store/home_store.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeStore> {
+class _HomePageState extends ModularState<HomePage, HomeBloc> {
   final _pageController = PageController();
 
   @override
@@ -23,12 +24,12 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
       appBar: AppBarWidget(title: 'AMOC'),
       body: PageView(
         controller: _pageController,
-        onPageChanged: store.changePage,
+        onPageChanged: (page) => bloc.add(PageHomeBlocEvent(page: page)),
         children: _getPages(),
       ),
-      bottomNavigationBar: ScopedBuilder(
-        store: store,
-        onState: _onState,
+      bottomNavigationBar: BlocBuilder(
+        bloc: bloc,
+        builder: _buildBottomNavigationBar,
       ),
     );
   }
@@ -38,30 +39,30 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
     AccountPage(),
   ];
 
-  Widget _onState(BuildContext context, int state) => BottomNavyBar(
-    selectedIndex: state,
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    onItemSelected: (i) => _pageController.animateToPage(i,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linearToEaseOut
-    ),
-    items: _getBottomNavyBarItems(context),
-  );
+  Widget _buildBottomNavigationBar(BuildContext context, BlocState state) {
+    var index = 0;
+    if(state is SuccessBlocState && state.value is int) {
+      index = state.value as int;
+    }
 
-  List<BottomNavyBarItem> _getBottomNavyBarItems(BuildContext context) => [
-    BottomNavyBarItem(
-      icon: const Icon(Icons.business),
-      title: const Text('Serviços'),
-      textAlign: TextAlign.center,
-      activeColor: Theme.of(context).accentColor,
-      inactiveColor: Theme.of(context).accentColor,
+    return BottomNavigationBar(
+      currentIndex: index,
+      onTap: (i) => _pageController.animateToPage(i,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linearToEaseOut
+      ),
+      items: _getBottomNavigationBarItems(context),
+    );
+  }
+
+  List<BottomNavigationBarItem> _getBottomNavigationBarItems(BuildContext context) => const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.business),
+      label: 'Serviços',
     ),
-    BottomNavyBarItem(
-      icon: const Icon(Icons.person_pin_circle),
-      title: const Text('Conta'),
-      textAlign: TextAlign.center,
-      activeColor: Theme.of(context).accentColor,
-      inactiveColor: Theme.of(context).accentColor,
+    BottomNavigationBarItem(
+      icon: Icon(Icons.person_pin_circle),
+      label: 'Conta',
     ),
   ];
 }

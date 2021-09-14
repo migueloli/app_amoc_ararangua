@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
 
+import '../../../../../core/states/bloc_state.dart';
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/error_message_widget.dart';
-import 'store/services_store.dart';
+import 'bloc/events/services_bloc_event.dart';
+import 'bloc/services_bloc.dart';
 
 class ServicesPage extends StatefulWidget {
   @override
   _ServicesPageState createState() => _ServicesPageState();
 }
 
-class _ServicesPageState extends ModularState<ServicesPage, ServicesStore> {
+class _ServicesPageState extends ModularState<ServicesPage, ServicesBloc> {
   @override
   void initState() {
-    store.searchServiceAccounts();
+    store.add(const SearchServicesBlocEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScopedBuilder(
-      store: store,
-      onState: _onState,
-      onLoading: _onLoading,
-      onError: _onError,
+    return BlocBuilder(
+      bloc: bloc,
+      builder: (context, state) {
+        if(state is SuccessBlocState) return _onState(context, state.value as List<AccountEntity>);
+        if(state is ErrorBlocState) return _onError(context, state.message);
+        return _onLoading(context);
+      }
     );
   }
 
