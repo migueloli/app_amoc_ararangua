@@ -21,7 +21,6 @@ environment:
   sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
-  bottom_navy_bar: ^6.0.0
   cloud_firestore: ^2.5.0
   dartz: ^0.10.0
   dynamic_themes: ^1.1.0
@@ -32,16 +31,16 @@ dependencies:
   firebase_crashlytics: ^2.2.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^7.2.0
   flutter_modular: ^3.4.1+1
-  flutter_triple: ^1.2.4+3
   google_sign_in: ^5.0.7
   internet_connection_checker: ^0.0.1+2
   kayta: ^1.0.2
-  mobx_triple: ^1.1.2+1
   search_cep: ^4.0.0-nullsafety.1
   shared_preferences: ^2.0.6
 
 dev_dependencies:
+  bloc_test: ^8.1.0
   fake_cloud_firestore: ^1.1.2
   flutter_test:
       sdk: flutter
