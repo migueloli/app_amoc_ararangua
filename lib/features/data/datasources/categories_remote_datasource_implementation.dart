@@ -5,7 +5,6 @@ import '../models/category_model.dart';
 import 'categories_remote_datasource.dart';
 
 class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSource {
-
   final FirebaseFirestore store;
 
   CategoriesRemoteDataSourceImplementation(this.store);
@@ -25,5 +24,4 @@ class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSour
       throw ServerException();
     }
   }
-
 }

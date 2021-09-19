@@ -7,7 +7,6 @@ import '../models/account_model.dart';
 import 'accounts_remote_datasource.dart';
 
 class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
-
   final FirebaseFirestore store;
   final FirebaseAuth auth;
   final GoogleSignIn googleSignIn;
@@ -177,5 +176,4 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
         return LoginException();
     }
   }
-
 }
