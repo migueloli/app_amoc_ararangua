@@ -1,7 +1,7 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/states/bloc_state.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_accounts_use_case.dart';
+import 'package:app_amoc_ararangua/features/domain/repositories/account_repository.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/pages/services/bloc/events/services_bloc_event.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/pages/services/bloc/services_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -9,36 +9,36 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockGetAccountsUseCase extends Mock implements GetAccountsUseCase {}
+class MockAccountsRepository extends Mock implements IAccountsRepository {}
 
 void main() {
-  late GetAccountsUseCase useCase;
+  late IAccountsRepository repository;
 
   setUp(() {
-    useCase = MockGetAccountsUseCase();
+    repository = MockAccountsRepository();
   });
 
   group('searchServiceAccounts', () {
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
-      build: () => ServicesBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => Left(ServerFailure())),
+      build: () => ServicesBloc(repository),
+      setUp: () => when(() => repository.getListOfAccounts()).thenAnswer((_) async => Left(ServerFailure())),
       act: (ServicesBloc bloc) => bloc.add(const SearchServicesBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.error(ServicesBloc.serverFailureMessage)],
     );
 
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
-      build: () => ServicesBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => Left(NetworkFailure())),
+      build: () => ServicesBloc(repository),
+      setUp: () => when(() => repository.getListOfAccounts()).thenAnswer((_) async => Left(NetworkFailure())),
       act: (ServicesBloc bloc) => bloc.add(const SearchServicesBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.error(ServicesBloc.networkFailureMessage)],
     );
 
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
-      build: () => ServicesBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => Left(LoginFailure())),
+      build: () => ServicesBloc(repository),
+      setUp: () => when(() => repository.getListOfAccounts()).thenAnswer((_) async => Left(LoginFailure())),
       act: (ServicesBloc bloc) => bloc.add(const SearchServicesBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.error(ServicesBloc.genericFailureMessage)],
     );
@@ -80,8 +80,8 @@ void main() {
 
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
-      build: () => ServicesBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => const Right(tListOfAccounts)),
+      build: () => ServicesBloc(repository),
+      setUp: () => when(() => repository.getListOfAccounts()).thenAnswer((_) async => const Right(tListOfAccounts)),
       act: (ServicesBloc bloc) => bloc.add(const SearchServicesBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.success(tListOfAccounts)],
     );

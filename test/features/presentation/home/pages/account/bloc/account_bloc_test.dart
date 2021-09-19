@@ -1,7 +1,7 @@
 import 'package:app_amoc_ararangua/core/errors/failures.dart';
 import 'package:app_amoc_ararangua/core/states/bloc_state.dart';
 import 'package:app_amoc_ararangua/features/domain/entities/account_entity.dart';
-import 'package:app_amoc_ararangua/features/domain/usecases/get_logged_user_use_case.dart';
+import 'package:app_amoc_ararangua/features/domain/repositories/account_repository.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/pages/account/bloc/account_bloc.dart';
 import 'package:app_amoc_ararangua/features/presentation/home/pages/account/bloc/events/account_bloc_events.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -9,28 +9,28 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockGetLoggedUserUseCase extends Mock implements GetLoggedUserUseCase{}
+class MockAccountsRepository extends Mock implements IAccountsRepository {}
 
 void main() {
-  late GetLoggedUserUseCase useCase;
+  late IAccountsRepository repository;
 
   setUp(() {
-    useCase = MockGetLoggedUserUseCase();
+    repository = MockAccountsRepository();
   });
 
   group('getLoggedUser', () {
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
-      build: () => AccountBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => Left(UserNotFoundFailure())),
+      build: () => AccountBloc(repository),
+      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(UserNotFoundFailure())),
       act: (AccountBloc bloc) => bloc.add(const GetLoggedUserBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.error('')],
     );
 
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
-      build: () => AccountBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => Left(NetworkFailure())),
+      build: () => AccountBloc(repository),
+      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(NetworkFailure())),
       act: (AccountBloc bloc) => bloc.add(const GetLoggedUserBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.error('')],
     );
@@ -53,9 +53,9 @@ void main() {
     );
 
     blocTest(
-      'should expect [LoadingBlocState, SuccessBlocState]', 
-      build: () => AccountBloc(useCase),
-      setUp: () => when(() => useCase()).thenAnswer((_) async => const Right(tAccount)),
+      'should expect [LoadingBlocState, SuccessBlocState]',
+      build: () => AccountBloc(repository),
+      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => const Right(tAccount)),
       act: (AccountBloc bloc) => bloc.add(const GetLoggedUserBlocEvent()),
       expect: () => [BlocState.loading(), BlocState.success(tAccount)],
     );

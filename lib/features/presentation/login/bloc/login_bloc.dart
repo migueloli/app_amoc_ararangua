@@ -1,19 +1,21 @@
+import 'package:app_amoc_ararangua/features/domain/repositories/account_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/states/bloc_state.dart';
-import '../../../domain/usecases/login_with_email_and_password_use_case.dart';
-import '../../../domain/usecases/login_with_google_use_case.dart';
 import 'events/login_bloc_event.dart';
 
 class LoginBloc extends Bloc<LoginBlocEvent, BlocState> {
-  final LoginWithEmailAndPasswordUseCase loginWithEmailAndPasswordUseCase;
-  final LoginWithGoogleUseCase loginWithGoogleUseCase;
+  final IAccountsRepository accountRepository;
 
-  LoginBloc(this.loginWithEmailAndPasswordUseCase, this.loginWithGoogleUseCase) : super(BlocState.empty());
+  LoginBloc(this.accountRepository) : super(BlocState.empty());
 
   String email = '';
   String password = '';
+
+  void onSaveEmail(String? value) => email = value ?? '';
+
+  void onSavePassword(String? value) => password = value ?? '';
 
   @override
   Stream<BlocState> mapEventToState(LoginBlocEvent event) async* {
@@ -26,7 +28,7 @@ class LoginBloc extends Bloc<LoginBlocEvent, BlocState> {
   }
 
   Future<BlocState> _loginWithEmailAndPassword(String email, String password) async {
-    final result = await loginWithEmailAndPasswordUseCase(email, password);
+    final result = await accountRepository.loginWithEmailAndPassword(email, password);
     return result.fold(
       (error) => BlocState.error(_processFailure(error)),
       (entity) => BlocState.success(entity),
@@ -34,47 +36,52 @@ class LoginBloc extends Bloc<LoginBlocEvent, BlocState> {
   }
 
   Future<BlocState> _loginWithGoogle() async {
-    final result = await loginWithGoogleUseCase();
+    final result = await accountRepository.loginWithGoogle();
     return result.fold(
       (error) => BlocState.error(_processFailure(error)),
       (entity) => BlocState.success(entity),
     );
   }
 
-  void onSaveEmail(String? value) => email = value ?? '';
-
-  void onSavePassword(String? value) => password = value ?? '';
-
   String _processFailure(Failure e) {
-    var message = 'Ocorreu um erro ao fazer login, tente novamente.';
-
     switch(e.runtimeType) {
       case EmailAlreadyInUseFailure:
-        message = 'Este e-mail já está cadastrado.';
-        break;
+        return emailAlreadyInUseMessage;
       case WeakPasswordFailure:
-        message = 'Está senha digitada é muito fraca.';
-        break;
+        return weakPasswordMessage;
       case InvalidEmailFailure:
-        message = 'Este e-mail é inválido.';
-        break;
+        return invalidEmailMessage;
       case OperationNotAllowedFailure:
-        message = 'Operação não permitida.';
-        break;
+        return operationNotAllowedMessage;
       case UserDisabledFailure:
-        message = 'Usuário desabilitado.';
-        break;
+        return userDisabledMessage;
       case UserNotFoundFailure:
-        message = 'Não foi encontrado nenhum usuário com esses dados.';
-        break;
+        return userNotFoundMessage;
       case WrongPasswordFailure:
-        message = 'Senha incorreta.';
-        break;
+        return wrongPasswordMessage;
       case AccountExistsWithDifferentCredentialFailure:
-        message = 'Conta cadastrada com outro modo de login.';
-        break;
+        return accountExistsWithDifferentCredentialMessage;
+      case InvalidCredentialFailure:
+        return invalidCredentialMessage;
+      case NetworkFailure:
+        return networkFailureMessage;
+      case ServerFailure:
+        return serverFailureMessage;
     }
 
-    return message;
+    return genericFailureMessage;
   }
+
+  static const emailAlreadyInUseMessage = 'Já existe uma conta com esse e-mail.';
+  static const weakPasswordMessage = 'Senha digitada é muito fraca.';
+  static const invalidEmailMessage = 'E-mail inválido.';
+  static const operationNotAllowedMessage = 'Operação não permitida.';
+  static const userDisabledMessage = 'Usuário desabilitado.';
+  static const userNotFoundMessage = 'Não foi encontrado nenhum usuário com esses dados.';
+  static const wrongPasswordMessage = 'Senha incorreta.';
+  static const accountExistsWithDifferentCredentialMessage = 'Conta cadastrada com outro modo de login.';
+  static const invalidCredentialMessage = 'Conta inválida.';
+  static const networkFailureMessage = 'Não foi possível conectar a internet, verifique as conexões do aparelho.';
+  static const serverFailureMessage = 'Ocorreu um erro na comunicação com o servidor, tente novamente.';
+  static const genericFailureMessage = 'Ocorreu um erro ao fazer login, tente novamente.';
 }

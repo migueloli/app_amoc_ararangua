@@ -7,7 +7,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../../core/network/network_info_implementation.dart';
 import '../../data/datasources/accounts_remote_datasource_implementation.dart';
 import '../../data/repositories/accounts_repository_implementation.dart';
-import '../../domain/usecases/get_logged_user_use_case.dart';
 import '../home/home_module.dart';
 import '../login/login_module.dart';
 
@@ -21,7 +20,6 @@ class AppModule extends Module {
     Bind((i) => GoogleSignIn()),
     Bind((i) => AccountsRemoteDataSourceImplementation(i.get(), i.get(), i.get())),
     Bind((i) => AccountsRepositoryImplementation(i.get(), i.get())),
-    Bind((i) => GetLoggedUserUseCase(i.get())),
   ];
 
   @override

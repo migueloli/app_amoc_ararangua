@@ -42,7 +42,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       if(data != null) {
         return AccountModel.fromJson(data);
       } else {
-        throw ServerException();
+        throw UserNotSavedException();
       }
     } catch(exception) {
       throw ServerException();
@@ -144,7 +144,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       if(user == null) throw UserNotFoundException();
       return await getAccount(user.uid);
     } catch (e) {
-      throw UserNotFoundException();
+      rethrow;
     }
   }
 

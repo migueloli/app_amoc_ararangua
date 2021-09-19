@@ -55,6 +55,8 @@ class AccountsRepositoryImplementation implements IAccountsRepository {
       final result = await datasource.saveAccount(accountModel);
 
       return Right(result);
+    } on UserNotSavedException {
+      return Left(UserNotSavedFailure());
     } on Exception {
       return Left(ServerFailure());
     }
