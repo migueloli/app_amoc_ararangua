@@ -101,7 +101,7 @@ void main() {
     );
   });
 
-  group('CreateAccountWithEmailAndPasswordEvent', () {
+  group('LoginWithEmailAndPasswordBlocEvent', () {
     blocTest(
       'should expect [LoadingBlocState, ErrorBlocState]',
       build: () => LoginBloc(repository),
