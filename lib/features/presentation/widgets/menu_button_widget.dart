@@ -24,19 +24,19 @@ class MenuButtonWidget extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             Text(
               label,
               style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ],
         ),

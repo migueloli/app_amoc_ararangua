@@ -43,17 +43,17 @@ class TextFieldWidget extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           labelText: label,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               width: 2,
             ),
           ),
           labelStyle: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           border: const OutlineInputBorder(),
         ),

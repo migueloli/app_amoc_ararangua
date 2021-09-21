@@ -39,7 +39,10 @@ final themes = {
     primaryColor: amocMainBlue[900],
     primaryColorDark: amocMainBlue[900],
     primaryColorLight: amocMainBlue[900],
-    accentColor: amocMainBlue[900],
+    colorScheme: const ColorScheme.light(
+      primary: amocMainBlue,
+      secondary: amocMainBlue,
+    ),
     dividerColor: amocMainBlue[900],
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: amocMainBlue[900],
@@ -51,12 +54,10 @@ final themes = {
       centerTitle: true,
       elevation: 0,
       titleSpacing: 1.5,
-      textTheme: const TextTheme(
-        headline6: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
+      toolbarTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
       ),
     ),
   ),
@@ -66,7 +67,10 @@ final themes = {
     primaryColor: amocMainYellow[900],
     primaryColorDark: amocMainYellow[900],
     primaryColorLight: amocMainYellow[900],
-    accentColor: amocMainYellow[900],
+    colorScheme: const ColorScheme.dark(
+      primary: amocMainYellow,
+      secondary: amocMainYellow,
+    ),
     dividerColor: amocMainYellow[900],
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: amocMainYellow[900],
@@ -78,12 +82,10 @@ final themes = {
       centerTitle: true,
       elevation: 0,
       titleSpacing: 1.5,
-      textTheme: const TextTheme(
-        headline6: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
+      toolbarTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
       ),
     ),
   ),

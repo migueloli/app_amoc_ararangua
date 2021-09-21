@@ -50,7 +50,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
 
   List<Widget> _createMenu(BuildContext context, AccountEntity? entity) {
     final textStyle = TextStyle(
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).colorScheme.secondary,
       fontSize: 16,
       fontWeight: FontWeight.bold,
     );
@@ -59,7 +59,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
     widgets.addAll([
       const SizedBox(height: 20,),
       SwitchListTile(
-        activeColor: Theme.of(context).accentColor,
+        activeColor: Theme.of(context).colorScheme.secondary,
         value: Theme.of(context).brightness == Brightness.dark,
         title: Text(
           'Modo noturno',
@@ -85,7 +85,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
           "Desenvolvido por Share Exp.",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             fontSize: 10,
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,

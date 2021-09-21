@@ -37,7 +37,7 @@ class _ServicesPageState extends ModularState<ServicesPage, ServicesBloc> {
     itemBuilder: (_, index) => ListTile(
       leading: Icon(
         Icons.business,
-        color: Theme.of(context).accentColor
+        color: Theme.of(context).colorScheme.secondary
       ),
       title: Text(state[index].name),
       subtitle: Text(state[index].phone),
