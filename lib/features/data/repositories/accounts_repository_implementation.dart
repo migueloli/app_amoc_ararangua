@@ -50,6 +50,7 @@ class AccountsRepositoryImplementation implements IAccountsRepository {
         description: account.description,
         status: account.status,
         cause: account.cause,
+        categoryId: account.categoryId,
       );
 
       final result = await datasource.saveAccount(accountModel);

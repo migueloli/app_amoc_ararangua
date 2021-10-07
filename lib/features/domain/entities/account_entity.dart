@@ -17,6 +17,7 @@ class AccountEntity extends Equatable {
   final String description;
   final int status;
   final String cause;
+  final String categoryId;
 
   const AccountEntity({
     this.id = '',
@@ -34,6 +35,7 @@ class AccountEntity extends Equatable {
     required this.description,
     required this.status,
     required this.cause,
+    required this.categoryId,
   });
 
   factory AccountEntity.empty() => const AccountEntity(
@@ -51,6 +53,7 @@ class AccountEntity extends Equatable {
     description: '',
     status: 0,
     cause: '',
+    categoryId: '',
   );
 
   @override
@@ -70,6 +73,7 @@ class AccountEntity extends Equatable {
     description,
     status,
     cause,
+    categoryId,
   ];
 
 }

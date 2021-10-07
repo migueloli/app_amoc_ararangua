@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../core/states/bloc_state.dart';
+import '../app/bloc/category_bloc.dart';
+import '../app/bloc/events/category_bloc_event.dart';
 import '../widgets/app_bar_widget.dart';
 import 'bloc/events/home_bloc_event.dart';
 import 'bloc/home_bloc.dart';
@@ -17,6 +19,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends ModularState<HomePage, HomeBloc> {
   final _pageController = PageController();
+
+  @override
+  void initState() {
+    Modular.get<CategoryBloc>().add(const GetCategoryEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

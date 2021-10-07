@@ -47,6 +47,7 @@ void main() {
               description: "Test 1",
               status: 0,
               cause: "Test 1",
+              categoryId: '',
             ),
             AccountModel(
               id: "",
@@ -64,6 +65,7 @@ void main() {
               description: "Test 2",
               status: 1,
               cause: "Test 2",
+              categoryId: '',
             ),
           ];
           when(() => networkInfo.isConnected).thenAnswer((_) async => true);
@@ -132,6 +134,7 @@ void main() {
         description: "Test 1",
         status: 0,
         cause: "Test 1",
+        categoryId: '',
       );
 
       test(
@@ -206,6 +209,7 @@ void main() {
         description: "Test 1",
         status: 0,
         cause: "Test 1",
+        categoryId: '',
       );
 
       test(
@@ -298,6 +302,7 @@ void main() {
         description: "",
         status: 0,
         cause: "",
+        categoryId: '',
       );
 
       test(
@@ -458,6 +463,7 @@ void main() {
         description: "",
         status: 0,
         cause: "",
+        categoryId: '',
       );
 
       test(
@@ -616,6 +622,7 @@ void main() {
         description: "",
         status: 0,
         cause: "",
+        categoryId: '',
       );
 
       test(
@@ -842,6 +849,7 @@ void main() {
         description: "Test 1",
         status: 0,
         cause: "Test 1",
+        categoryId: '',
       );
 
       test(

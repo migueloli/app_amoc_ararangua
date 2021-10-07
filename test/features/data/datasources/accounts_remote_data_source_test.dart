@@ -44,6 +44,7 @@ void main() {
           description: "Test 1",
           status: 1,
           cause: "Test 1",
+          categoryId: '',
         ),
         AccountModel(
           id: "",
@@ -61,6 +62,7 @@ void main() {
           description: "Test 2",
           status: 1,
           cause: "Test 2",
+          categoryId: '',
         ),
       ];
 
@@ -101,6 +103,7 @@ void main() {
         description: "Test",
         status: 0,
         cause: "Test",
+        categoryId: '',
       );
 
       test(
@@ -135,6 +138,7 @@ void main() {
         description: "Test",
         status: 0,
         cause: "Test",
+        categoryId: '',
       );
 
       test(
@@ -300,6 +304,7 @@ void main() {
         description: "Test",
         status: 0,
         cause: "Test",
+        categoryId: '',
       );
 
       test(
@@ -458,6 +463,7 @@ void main() {
         description: "Test",
         status: 0,
         cause: "Test",
+        categoryId: '',
       );
 
       test(
@@ -659,6 +665,7 @@ void main() {
         description: "Test",
         status: 0,
         cause: "Test",
+        categoryId: '',
       );
 
       test(

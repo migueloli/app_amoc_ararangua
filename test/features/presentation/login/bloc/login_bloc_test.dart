@@ -90,6 +90,7 @@ void main() {
       description: "Test 1",
       status: 0,
       cause: "Test 1",
+      categoryId: '',
     );
 
     blocTest(
@@ -189,6 +190,7 @@ void main() {
       description: "Test 1",
       status: 0,
       cause: "Test 1",
+      categoryId: '',
     );
 
     blocTest(

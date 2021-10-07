@@ -20,7 +20,9 @@ class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSour
       }
 
       return categoriesList;
-    } catch(exception) {
+    } catch(e, s) {
+      print('$e: $s');
+
       throw ServerException();
     }
   }

@@ -59,6 +59,7 @@ void main() {
           description: "Test 1",
           status: 0,
           cause: "Test 1",
+          categoryId: '',
         ),
         AccountEntity(
           name: "Test 2",
@@ -75,6 +76,7 @@ void main() {
           description: "Test 2",
           status: 1,
           cause: "Test 2",
+          categoryId: '',
         ),
       ];
 

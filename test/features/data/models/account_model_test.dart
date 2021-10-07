@@ -23,6 +23,7 @@ void main() {
     description: "Test",
     status: 0,
     cause: "Test",
+    categoryId: '',
   );
 
   test(
