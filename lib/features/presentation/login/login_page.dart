@@ -107,6 +107,10 @@ class _LoginPageState extends ModularState<LoginPage, LoginBloc> {
                   obscureText: true,
                   textInputAction: TextInputAction.next,
                 ),
+                TextButton(
+                  onPressed: () => Modular.to.popAndPushNamed('/create-account/'),
+                  child: const Text('Cadastrar'),
+                ),
                 const SizedBox(height: 24),
                 RectangularButton(
                   label: 'Login',

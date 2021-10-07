@@ -5,7 +5,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../core/states/bloc_state.dart';
 import '../../../core/validators/validators.dart';
-import '../widgets/app_bar_widget.dart';
 import '../widgets/rectangular_button.dart';
 import '../widgets/text_field_widget.dart';
 import 'bloc/create_account_bloc.dart';
@@ -24,7 +23,35 @@ class _CreateAccountPageState extends ModularState<CreateAccountPage, CreateAcco
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'Criar conta',),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(300),
+        child: Container(
+          height: 300,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.elliptical(100, 80),
+            ),
+            color: Theme.of(context).appBarTheme.backgroundColor,
+          ),
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 40,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: Modular.to.pop,
+                ),
+              ),
+              Center(
+                child: Image.asset('assets/images/logo.png'),
+              ),
+            ]
+          ),
+        ),
+      ),
       body: BlocConsumer(
         bloc: bloc,
         listenWhen: (previousState, state) => state is ErrorBlocState || state is SuccessBlocState,
@@ -90,7 +117,7 @@ class _CreateAccountPageState extends ModularState<CreateAccountPage, CreateAcco
                 ),
                 const SizedBox(height: 24),
                 RectangularButton(
-                  label: 'Login',
+                  label: 'Cadastrar',
                   icon: const Icon(
                     Icons.login,
                   ),
