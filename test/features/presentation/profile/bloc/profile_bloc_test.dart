@@ -5,6 +5,7 @@ import 'package:app_amoc_ararangua/features/domain/repositories/account_reposito
 import 'package:app_amoc_ararangua/features/presentation/profile/bloc/events/profile_event_bloc.dart';
 import 'package:app_amoc_ararangua/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:app_amoc_ararangua/features/presentation/profile/bloc/save_profile_bloc.dart';
+import 'package:app_amoc_ararangua/features/presentation/profile/presenter/mapper/account_entity_mapper.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -73,13 +74,17 @@ void main() {
       cause: "Test 1",
       categoryId: '',
     );
+    final presenter = tAccount.toPresenter();
 
     blocTest(
       'should expect [LoadingBlocState, SuccessBlocState]',
       build: () => ProfileBloc(repository, saveUseCase),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => const Right(tAccount)),
+      setUp: () {
+        when(() => repository.getLoggedUser()).thenAnswer((_) async => const Right(tAccount));
+        when(() => saveUseCase.presenter).thenReturn(presenter);
+      },
       act: (ProfileBloc bloc) => bloc.add(const GetProfileEventBloc()),
-      expect: () => [BlocState.loading(), BlocState.success(tAccount)],
+      expect: () => [BlocState.loading(), BlocState.success(presenter)],
     );
   });
 

@@ -39,9 +39,9 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
     try {
       final response = await store.collection('users').doc(account.id).get();
       if(response.exists) {
-        response.reference.update(account.toJson());
+        await response.reference.update(account.toJson());
       } else {
-        response.reference.set(account.toJson());
+        await response.reference.set(account.toJson());
       }
       final user = await getLoggedUser();
       return user;
@@ -55,9 +55,9 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
   @override
   Future<AccountModel> getAccount(String uid) async {
     try {
-      final response = await store.collection('users').where('id', isEqualTo: uid).get();
-      if(response.docs.isEmpty) throw UserNotFoundException();
-      return AccountModel.fromJson(response.docs.first.data());
+      final response = await store.collection('users').doc(uid).get();
+      if(!response.exists || response.data() == null) throw UserNotFoundException();
+      return AccountModel.fromJson(response.data()!);
     } catch(e, s) {
       print('$e: $s');
 
@@ -139,11 +139,11 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       throw LoginException();
     } on FirebaseAuthException catch (e, s) {
       print('$e: $s');
-      if(await googleSignIn.isSignedIn()) await googleSignIn.signIn();
+      if(await googleSignIn.isSignedIn()) await googleSignIn.signOut();
       throw _prepareFirebaseException(e.code);
     } catch (e, s) {
       print('$e: $s');
-      if(await googleSignIn.isSignedIn()) await googleSignIn.signIn();
+      if(await googleSignIn.isSignedIn()) await googleSignIn.signOut();
       throw LoginException();
     }
   }

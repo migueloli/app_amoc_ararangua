@@ -4,23 +4,34 @@ import 'package:app_amoc_ararangua/features/data/models/account_model.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mocktail/mocktail.dart';
+
+mixin LegacyEquality {
+  @override
+  bool operator ==(dynamic other) => true;
+
+  @override
+  int get hashCode => 0;
+}
 
 class CustomMockFirebaseAuth extends Mock implements FirebaseAuth {}
 class MockUserCredential extends Mock implements UserCredential {}
 class MockUser extends Mock implements User {}
+class CustomMockGoogleSignIn extends Mock implements GoogleSignIn {}
+class MockGoogleSignInAccount extends Mock with LegacyEquality implements GoogleSignInAccount {}
+class MockGoogleSignInAuthentication extends Mock implements GoogleSignInAuthentication {}
 
 void main() {
   late AccountsRemoteDataSourceImplementation dataSource;
   late FakeFirebaseFirestore mockFirebaseStore;
   late CustomMockFirebaseAuth mockFirebaseAuth;
-  late MockGoogleSignIn mockGoogleSignIn;
+  late GoogleSignIn mockGoogleSignIn;
 
   setUp(() {
     mockFirebaseStore = FakeFirebaseFirestore();
     mockFirebaseAuth = CustomMockFirebaseAuth();
-    mockGoogleSignIn = MockGoogleSignIn();
+    mockGoogleSignIn = CustomMockGoogleSignIn();
     dataSource = AccountsRemoteDataSourceImplementation(mockFirebaseStore, mockFirebaseAuth, mockGoogleSignIn);
   });
 
@@ -29,7 +40,7 @@ void main() {
     () {
       const tListOfAccounts = [
         AccountModel(
-          id: "",
+          id: "1",
           name: "Test 1",
           document: "123",
           email: "test1@test.com",
@@ -47,7 +58,7 @@ void main() {
           categoryId: '',
         ),
         AccountModel(
-          id: "",
+          id: "2",
           name: "Test 2",
           document: "321",
           email: "test2@test.com",
@@ -71,7 +82,8 @@ void main() {
         () async {
           //Arrange
           for(final tAccount in tListOfAccounts) {
-            await mockFirebaseStore.collection('users').add(tAccount.toJson());
+            final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+            await response.reference.set(tAccount.toJson());
           }
 
           //Act
@@ -88,7 +100,7 @@ void main() {
     'saveAccount',
     () {
       const tAccount = AccountModel(
-        id: "",
+        id: "1",
         name: "Test",
         document: "123",
         email: "test@test.com",
@@ -107,13 +119,44 @@ void main() {
       );
 
       test(
-        'should return an AccountModel',
+        'when Account does not exist should create and return an AccountModel',
         () async {
+          // Arrange
+          final user = MockUser();
+          when(() => mockFirebaseAuth.currentUser)
+            .thenReturn(user);
+          when(() => user.uid).thenReturn('1');
           //Act
           final result = await dataSource.saveAccount(tAccount);
-
           //Assert
           expect(result, tAccount);
+        }
+      );
+
+      test(
+        'when Account exists should update and return an AccountModel',
+        () async {
+          // Arrange
+          final user = MockUser();
+          final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+          await response.reference.set(tAccount.toJson());
+          when(() => mockFirebaseAuth.currentUser)
+            .thenReturn(user);
+          when(() => user.uid).thenReturn('1');
+          //Act
+          final result = await dataSource.saveAccount(tAccount);
+          //Assert
+          expect(result, tAccount);
+        }
+      );
+
+      test(
+        'when a failure happen should return ServerException',
+        () async {
+          //Act
+          final result = dataSource.saveAccount(tAccount);
+          //Assert
+          expect(result, throwsA(ServerException()));
         }
       );
     }
@@ -145,7 +188,8 @@ void main() {
         'should return an AccountModel for the given id',
         () async {
           //Arrange
-          await mockFirebaseStore.collection('users').add(tAccount.toJson());
+          final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+          await response.reference.set(tAccount.toJson());
 
           //Act
           final result = await dataSource.getAccount("1");
@@ -183,6 +227,7 @@ void main() {
           when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
             .thenAnswer((_) async => userCredential);
           when(() => userCredential.user).thenReturn(user);
+          when(() => mockFirebaseAuth.currentUser).thenReturn(user);
           when(() => user.uid).thenReturn('1');
           when(() => user.sendEmailVerification()).thenAnswer((_) async {});
 
@@ -193,7 +238,8 @@ void main() {
           expect(result, isA<AccountModel>());
           verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
           verify(() => userCredential.user).called(1);
-          verify(() => user.uid).called(1);
+          verify(() => mockFirebaseAuth.currentUser).called(1);
+          verify(() => user.uid).called(2);
           verify(() => user.sendEmailVerification()).called(1);
         }
       );
@@ -311,7 +357,8 @@ void main() {
         'should return an existent AccountModel with email not verified',
         () async {
           //Arrange
-          await mockFirebaseStore.collection('users').add(tAccount.toJson());
+          final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+          await response.reference.set(tAccount.toJson());
 
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenAnswer((_) async => userCredential);
@@ -337,7 +384,8 @@ void main() {
         'should return an existent AccountModel with email verified',
         () async {
           //Arrange
-          await mockFirebaseStore.collection('users').add(tAccount.toJson());
+          final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+          await response.reference.set(tAccount.toJson());
 
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenAnswer((_) async => userCredential);
@@ -470,9 +518,16 @@ void main() {
         'should return a created AccountModel',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenAnswer((_) async => userCredential);
           when(() => userCredential.user).thenReturn(user);
+          when(() => mockFirebaseAuth.currentUser).thenReturn(user);
           when(() => user.uid).thenReturn('1');
 
           //Act
@@ -482,7 +537,8 @@ void main() {
           expect(result, isA<AccountModel>());
           verify(() => mockFirebaseAuth.signInWithCredential(any())).called(1);
           verify(() => userCredential.user).called(1);
-          verify(() => user.uid).called(2);
+          verify(() => mockFirebaseAuth.currentUser).called(1);
+          verify(() => user.uid).called(3);
         }
       );
 
@@ -490,8 +546,15 @@ void main() {
         'should return an already created AccountModel',
         () async {
           //Arrange
-          await mockFirebaseStore.collection('users').add(tAccount.toJson());
+          final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+          await response.reference.set(tAccount.toJson());
 
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenAnswer((_) async => userCredential);
           when(() => userCredential.user).thenReturn(user);
@@ -512,6 +575,13 @@ void main() {
         'should throw an OperationNotAllowedException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'operation-not-allowed'));
 
@@ -527,6 +597,13 @@ void main() {
         'should throw an AccountExistsWithDifferentCredentialException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'account-exists-with-different-credential'));
 
@@ -542,6 +619,13 @@ void main() {
         'should throw an InvalidCredentialException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'invalid-credential'));
 
@@ -557,6 +641,13 @@ void main() {
         'should throw an UserDisabledException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'user-disabled'));
 
@@ -572,6 +663,13 @@ void main() {
         'should throw an UserNotFoundException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'user-not-found'));
 
@@ -587,6 +685,13 @@ void main() {
         'should throw an WrongPasswordException trying to sign in',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'wrong-password'));
 
@@ -602,6 +707,13 @@ void main() {
         'should throw an InvalidVerificationCodeException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'invalid-verification-code'));
 
@@ -617,6 +729,13 @@ void main() {
         'should throw an InvalidVerificationIdException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(FirebaseAuthException(code: 'invalid-verification-id'));
 
@@ -632,6 +751,13 @@ void main() {
         'should throw an LoginException when trying to sign in with Google',
         () async {
           //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(Exception());
 
@@ -672,9 +798,9 @@ void main() {
         'should return an AccountModel for the given id',
         () async {
           //Arrange
-          await mockFirebaseStore.collection('users').add(tAccount.toJson());
-          when(() => mockFirebaseAuth.currentUser)
-            .thenReturn(user);
+          final response = await mockFirebaseStore.collection('users').doc(tAccount.id).get();
+          await response.reference.set(tAccount.toJson());
+          when(() => mockFirebaseAuth.currentUser).thenReturn(user);
           when(() => user.uid).thenReturn('1');
 
           //Act

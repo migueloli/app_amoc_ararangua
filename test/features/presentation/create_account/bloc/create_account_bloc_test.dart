@@ -19,59 +19,89 @@ void main() {
   });
 
   group('CreateAccountWithEmailAndPasswordEvent', () {
+    const email = "test1@test.com";
+    const password = '123456';
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with emailAlreadyInUseMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(EmailAlreadyInUseFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(EmailAlreadyInUseFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.emailAlreadyInUseMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with weakPasswordMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(WeakPasswordFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(WeakPasswordFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.weakPasswordMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with invalidEmailMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(InvalidEmailFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(InvalidEmailFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.invalidEmailMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with operationNotAllowedMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(OperationNotAllowedFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(OperationNotAllowedFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.operationNotAllowedMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with networkFailureMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(NetworkFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(NetworkFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.networkFailureMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with serverFailureMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(ServerFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(ServerFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.serverFailureMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with genericFailureMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(LoginFailure())),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => Left(LoginFailure())),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.genericFailureMessage)],
     );
 
@@ -96,81 +126,85 @@ void main() {
     blocTest(
       'should expect [LoadingBlocState, SuccessBlocState]',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => const Right(tAccount)),
-      act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithEmailAndPasswordEvent()),
+      setUp: () => when(() => repository.createAccountWithEmailAndPassword(email, password)).thenAnswer((_) async => const Right(tAccount)),
+      act: (CreateAccountBloc bloc) {
+        bloc.onSaveEmail(email);
+        bloc.onSavePassword(password);
+        bloc.add(const CreateAccountWithEmailAndPasswordEvent());
+      },
       expect: () => [BlocState.loading(), BlocState.success(tAccount)],
     );
   });
 
   group('CreateAccountWithGoogleEvent', () {
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with operationNotAllowedMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(OperationNotAllowedFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(OperationNotAllowedFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.operationNotAllowedMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with userDisabledMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(UserDisabledFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(UserDisabledFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.userDisabledMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with userNotFoundMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(UserNotFoundFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(UserNotFoundFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.userNotFoundMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with wrongPasswordMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(WrongPasswordFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(WrongPasswordFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.wrongPasswordMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with invalidCredentialMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(InvalidCredentialFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(InvalidCredentialFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.invalidCredentialMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with accountExistsWithDifferentCredentialMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(AccountExistsWithDifferentCredentialFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(AccountExistsWithDifferentCredentialFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.accountExistsWithDifferentCredentialMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with networkFailureMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(NetworkFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(NetworkFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.networkFailureMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with serverFailureMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(ServerFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(ServerFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.serverFailureMessage)],
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with genericFailureMessage',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(LoginFailure())),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => Left(LoginFailure())),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.error(CreateAccountBloc.genericFailureMessage)],
     );
@@ -196,7 +230,7 @@ void main() {
     blocTest(
       'should expect [LoadingBlocState, SuccessBlocState]',
       build: () => CreateAccountBloc(repository),
-      setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => const Right(tAccount)),
+      setUp: () => when(() => repository.loginWithGoogle()).thenAnswer((_) async => const Right(tAccount)),
       act: (CreateAccountBloc bloc) => bloc.add(const CreateAccountWithGoogleEvent()),
       expect: () => [BlocState.loading(), BlocState.success(tAccount)],
     );
