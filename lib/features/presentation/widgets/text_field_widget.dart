@@ -6,11 +6,12 @@ class TextFieldWidget extends StatelessWidget {
   final String label;
   final IconData icon;
   final TextInputType inputType;
-  final int minLines;
-  final int maxLines;
+  final int? minLines;
+  final int? maxLines;
   final List<TextInputFormatter>? inputFormatters;
-  final FormFieldSetter<String> onSaved;
+  final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onChanged;
   final bool obscureText;
   final TextCapitalization capitalization;
   final TextInputAction textInputAction;
@@ -24,8 +25,9 @@ class TextFieldWidget extends StatelessWidget {
     this.minLines = 1,
     this.maxLines = 1,
     this.inputFormatters,
-    required this.onSaved,
+    this.onSaved,
     this.validator,
+    this.onChanged,
     this.obscureText = false,
     this.capitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
@@ -58,6 +60,7 @@ class TextFieldWidget extends StatelessWidget {
           border: const OutlineInputBorder(),
         ),
         textCapitalization: capitalization,
+        onChanged: onChanged,
         onSaved: onSaved,
         validator: validator,
         maxLines: maxLines,

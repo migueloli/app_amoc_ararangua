@@ -102,7 +102,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
     MenuButtonWidget(
       label: 'Login',
       icon: Icons.login,
-      onPressed: () => Modular.to.pushNamed('/login'),
+      onPressed: () => Modular.to.pushNamed('/login/'),
     ),
   ];
 
@@ -111,7 +111,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
     MenuButtonWidget(
       label: 'Perfil',
       icon: Icons.person,
-      onPressed: () {},
+      onPressed: () => Modular.to.pushNamed('/profile/'),
     ),
     const Divider(),
     MenuButtonWidget(

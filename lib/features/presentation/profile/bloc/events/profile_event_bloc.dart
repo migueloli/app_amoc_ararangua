@@ -5,7 +5,8 @@ abstract class ProfileEventBloc extends Equatable {
 }
 
 class GetProfileEventBloc extends ProfileEventBloc {
-  const GetProfileEventBloc();
+  final bool resend;
+  const GetProfileEventBloc({this.resend = false});
 
   @override
   List<Object?> get props => [];
@@ -15,5 +16,13 @@ class SaveProfileEventBloc extends ProfileEventBloc {
   const SaveProfileEventBloc();
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
+}
+
+class PageProfileEventBloc extends ProfileEventBloc {
+  final int page;
+  const PageProfileEventBloc({required this.page});
+
+  @override
+  List<Object?> get props => [page];
 }
