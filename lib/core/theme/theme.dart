@@ -6,6 +6,9 @@ class AppThemes {
   static const int darkTheme = 1;
 }
 
+const amocBaseBlue = Color.fromRGBO(40, 53, 200, 1);
+const amocBaseYellow = Color.fromRGBO(255, 223, 0, 1);
+
 const MaterialColor amocMainBlue = MaterialColor(0xFF283593, {
   050: Color.fromRGBO(40, 53, 200, .1),
   100: Color.fromRGBO(40, 53, 200, .2),
@@ -36,57 +39,71 @@ final themes = {
   AppThemes.lightTheme: ThemeData(
     primarySwatch: amocMainBlue,
     brightness: Brightness.light,
-    primaryColor: amocMainBlue[900],
-    primaryColorDark: amocMainBlue[900],
-    primaryColorLight: amocMainBlue[900],
-    colorScheme: const ColorScheme.light(
-      primary: amocMainBlue,
-      secondary: amocMainBlue,
+    primaryColor: amocBaseBlue,
+    primaryColorDark: amocBaseBlue,
+    primaryColorLight: amocBaseBlue,
+    dividerColor: amocBaseBlue,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: amocBaseBlue,
+      selectionColor: amocBaseBlue,
+      selectionHandleColor: amocBaseBlue,
     ),
-    dividerColor: amocMainBlue[900],
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: amocMainBlue[900],
-      selectionColor: amocMainBlue[900],
-      selectionHandleColor: amocMainBlue[900],
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: amocMainBlue[900],
+    appBarTheme: const AppBarTheme(
+      backgroundColor: amocBaseBlue,
       centerTitle: true,
       elevation: 0,
       titleSpacing: 1.5,
-      toolbarTextStyle: const TextStyle(
+      toolbarTextStyle: TextStyle(
         color: Colors.white,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    colorScheme: const ColorScheme.light(
+      primary: amocBaseBlue,
+      secondary: amocBaseBlue,
+      onPrimary: amocBaseBlue,
+      onSecondary: amocBaseBlue,
     ),
   ),
   AppThemes.darkTheme: ThemeData(
     primarySwatch: amocMainYellow,
     brightness: Brightness.dark,
-    primaryColor: amocMainYellow[900],
-    primaryColorDark: amocMainYellow[900],
-    primaryColorLight: amocMainYellow[900],
-    colorScheme: const ColorScheme.dark(
-      primary: amocMainYellow,
-      secondary: amocMainYellow,
+    primaryColor: amocBaseYellow,
+    primaryColorDark: amocBaseYellow,
+    primaryColorLight: amocBaseYellow,
+    dividerColor: amocBaseYellow,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: amocBaseYellow,
+      selectionColor: amocBaseYellow,
+      selectionHandleColor: amocBaseYellow,
     ),
-    dividerColor: amocMainYellow[900],
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: amocMainYellow[900],
-      selectionColor: amocMainYellow[900],
-      selectionHandleColor: amocMainYellow[900],
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: amocMainBlue[900],
+    appBarTheme: const AppBarTheme(
+      backgroundColor: amocBaseBlue,
       centerTitle: true,
       elevation: 0,
       titleSpacing: 1.5,
-      toolbarTextStyle: const TextStyle(
+      toolbarTextStyle: TextStyle(
         color: Colors.white,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    colorScheme: const ColorScheme.dark(
+      primary: amocBaseYellow,
+      secondary: amocBaseYellow,
+      onPrimary: amocBaseYellow,
+      onSecondary: amocBaseYellow,
     ),
   ),
 };
