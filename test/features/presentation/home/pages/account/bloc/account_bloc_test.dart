@@ -20,7 +20,7 @@ void main() {
 
   group('getLoggedUser', () {
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with UserNotFoundFailure',
       build: () => AccountBloc(repository),
       setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(UserNotFoundFailure())),
       act: (AccountBloc bloc) => bloc.add(const GetLoggedUserBlocEvent()),
@@ -28,7 +28,7 @@ void main() {
     );
 
     blocTest(
-      'should expect [LoadingBlocState, ErrorBlocState]',
+      'should expect [LoadingBlocState, ErrorBlocState] with NetworkFailure',
       build: () => AccountBloc(repository),
       setUp: () => when(() => repository.getLoggedUser()).thenAnswer((_) async => Left(NetworkFailure())),
       act: (AccountBloc bloc) => bloc.add(const GetLoggedUserBlocEvent()),
