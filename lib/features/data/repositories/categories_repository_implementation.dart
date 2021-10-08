@@ -25,5 +25,4 @@ class CategoriesRepositoryImplementation implements ICategoriesRepository {
       return Left(ServerFailure());
     }
   }
-
 }

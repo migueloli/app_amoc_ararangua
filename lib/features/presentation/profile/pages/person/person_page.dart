@@ -127,12 +127,12 @@ class _PersonPageState extends State<PersonPage> {
                   value: _bloc.saveProfileBloc.presenter.state,
                 ),
               ],
-            )
+            ),
           );
         }
 
         return const Center(child: CircularProgressIndicator(),);
-      }
+      },
     );
   }
 }

@@ -48,7 +48,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginBloc> {
               Center(
                 child: Image.asset('assets/images/logo.png'),
               ),
-            ]
+            ],
           ),
         ),
       ),
@@ -76,7 +76,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginBloc> {
   }
 
   Widget _onLoading(BuildContext context) => const Center(
-    child: CircularProgressIndicator()
+    child: CircularProgressIndicator(),
   );
 
   Widget _onState(context) {

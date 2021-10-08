@@ -57,7 +57,7 @@ class _HomePageState extends ModularState<HomePage, HomeBloc> {
       currentIndex: index,
       onTap: (i) => _pageController.animateToPage(i,
         duration: const Duration(milliseconds: 500),
-        curve: Curves.linearToEaseOut
+        curve: Curves.linearToEaseOut,
       ),
       items: _getBottomNavigationBarItems(context),
     );

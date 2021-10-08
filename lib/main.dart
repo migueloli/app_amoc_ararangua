@@ -19,5 +19,5 @@ void mainRunApp() => runApp(
   ModularApp(
     module: AppModule(),
     child: AppWidget(),
-  )
+  ),
 );

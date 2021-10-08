@@ -17,7 +17,7 @@ class AppWidget extends StatelessWidget {
           theme: theme,
           initialRoute: Modular.initialRoute,
         ).modular();
-      }
+      },
     );
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../core/errors/exceptions.dart';
@@ -21,7 +23,7 @@ class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSour
 
       return categoriesList;
     } catch(e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
 
       throw ServerException();
     }

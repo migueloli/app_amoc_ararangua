@@ -449,7 +449,14 @@ packages:
       name: lint
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.0"
+    version: "1.7.2"
+  logger:
+    dependency: "direct dev"
+    description:
+      name: logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   logging:
     dependency: transitive
     description:

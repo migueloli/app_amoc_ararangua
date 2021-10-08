@@ -48,7 +48,7 @@ class _CreateAccountPageState extends ModularState<CreateAccountPage, CreateAcco
               Center(
                 child: Image.asset('assets/images/logo.png'),
               ),
-            ]
+            ],
           ),
         ),
       ),
@@ -76,7 +76,7 @@ class _CreateAccountPageState extends ModularState<CreateAccountPage, CreateAcco
   }
 
   Widget _onLoading(BuildContext context) => const Center(
-    child: CircularProgressIndicator()
+    child: CircularProgressIndicator(),
   );
 
   Widget _onState(context) {

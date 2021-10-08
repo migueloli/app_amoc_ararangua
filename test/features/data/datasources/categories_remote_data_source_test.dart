@@ -35,30 +35,6 @@ void main() {
           expect(result, tListOfCategories);
         }
       );
-
-      // test(
-      //   'should throw a ServerException when the response code is a negative response',
-      //   () async {
-      //     //Arrange
-      //     when(() => mockDio.get(any()))
-      //       .thenAnswer(
-      //         (_) async => Response(
-      //           data: 'Something went wrong.',
-      //           statusCode: HttpStatus.notFound,
-      //           requestOptions: RequestOptions(
-      //             path: url,
-      //           ),
-      //         )
-      //       );
-
-      //     //Act
-      //     final call = dataSource.getListOfCategories;
-
-      //     //Assert
-      //     expect(() => call(), throwsA(isA<ServerException>()));
-      //     verify(() => mockDio.get(any())).called(1);
-      //   }
-      // );
     }
   );
 

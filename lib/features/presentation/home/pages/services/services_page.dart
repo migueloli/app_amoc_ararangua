@@ -31,7 +31,7 @@ class _ServicesPageState extends ModularState<ServicesPage, ServicesBloc> {
           if(state is SuccessBlocState) return _onState(context, state.value as List<AccountEntity>);
           if(state is ErrorBlocState) return _onError(context, state.message);
           return _onLoading(context);
-        }
+        },
       ),
     );
   }
@@ -55,7 +55,7 @@ class _ServicesPageState extends ModularState<ServicesPage, ServicesBloc> {
   );
 
   Widget _onLoading(BuildContext context) => const Center(
-    child: CircularProgressIndicator()
+    child: CircularProgressIndicator(),
   );
 
   Widget _onError(BuildContext context, String? error) => ErrorMessageWidget(

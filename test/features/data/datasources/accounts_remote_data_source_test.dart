@@ -19,6 +19,7 @@ class CustomMockFirebaseAuth extends Mock implements FirebaseAuth {}
 class MockUserCredential extends Mock implements UserCredential {}
 class MockUser extends Mock implements User {}
 class CustomMockGoogleSignIn extends Mock implements GoogleSignIn {}
+// ignore: avoid_implementing_value_types
 class MockGoogleSignInAccount extends Mock with LegacyEquality implements GoogleSignInAccount {}
 class MockGoogleSignInAuthentication extends Mock implements GoogleSignInAuthentication {}
 

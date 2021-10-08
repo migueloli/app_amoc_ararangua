@@ -21,19 +21,13 @@ String? validateDocument(String? value) => value != null && (CPFValidator.isVali
 
 String? validatePhone(String? value) =>
     value != null &&
-    RegExp(
-      r'^(?:(?:\+|00)?(55)\s?)?(?:(?:\(?[1-9][0-9]\)?)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$'
-    ).hasMatch(
-      value.trim()
-    ) ? null : invalidPhoneMessage;
+    RegExp(r'^(?:(?:\+|00)?(55)\s?)?(?:(?:\(?[1-9][0-9]\)?)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$')
+      .hasMatch(value.trim()) ? null : invalidPhoneMessage;
 
 String? validateZip(String? value) =>
     value != null &&
-    RegExp(
-      r'\d{2}.\d{3}-\d{3}'
-    ).hasMatch(
-      value.trim().replaceAll(RegExp(r'\s+'), '')
-    ) ? null : invalidZipCodeMessage;
+    RegExp(r'\d{2}.\d{3}-\d{3}')
+      .hasMatch(value.trim().replaceAll(RegExp(r'\s+'), '')) ? null : invalidZipCodeMessage;
 
 String? validateAddress(String? value) => value != null && value.trim().length >= 6
     ? null

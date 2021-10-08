@@ -100,7 +100,7 @@ class _ProfilePageState extends ModularState<ProfilePage, ProfilePageBloc> {
                   }
 
                   return const Center(child: CircularProgressIndicator(),);
-                }
+                },
               ),
             ),
           ],
@@ -121,7 +121,7 @@ class _ProfilePageState extends ModularState<ProfilePage, ProfilePageBloc> {
         currentIndex: page,
         onTap: (i) => _pageController.animateToPage(i,
           duration: const Duration(milliseconds: 500),
-          curve: Curves.linearToEaseOut
+          curve: Curves.linearToEaseOut,
         ),
         items: const [
           BottomNavigationBarItem(

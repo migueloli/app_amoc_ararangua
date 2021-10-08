@@ -20,5 +20,4 @@ class CategoryModel extends CategoryEntity {
     'id': id,
     'description': description,
   };
-
 }

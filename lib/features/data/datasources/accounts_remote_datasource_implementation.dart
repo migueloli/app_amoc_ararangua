@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -28,7 +30,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
       return accountList;
     } catch(e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
 
       throw ServerException;
     }
@@ -46,7 +48,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       final user = await getLoggedUser();
       return user;
     } catch(e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
 
       throw ServerException();
     }
@@ -59,7 +61,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       if(!response.exists || response.data() == null) throw UserNotFoundException();
       return AccountModel.fromJson(response.data()!);
     } catch(e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
 
       if(e is UserNotFoundException) rethrow;
 
@@ -84,10 +86,10 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
       throw LoginException();
     } on FirebaseAuthException catch (e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
       throw _prepareFirebaseException(e.code);
     } catch (e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
       throw LoginException();
     }
   }
@@ -111,7 +113,8 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       throw LoginException();
     } on FirebaseAuthException catch (e) {
       throw _prepareFirebaseException(e.code);
-    } catch (e) {
+    } catch (e, s) {
+      log(e.toString(), stackTrace: s);
       throw LoginException();
     }
   }
@@ -138,11 +141,11 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
 
       throw LoginException();
     } on FirebaseAuthException catch (e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
       if(await googleSignIn.isSignedIn()) await googleSignIn.signOut();
       throw _prepareFirebaseException(e.code);
     } catch (e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
       if(await googleSignIn.isSignedIn()) await googleSignIn.signOut();
       throw LoginException();
     }
@@ -155,7 +158,7 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
       if(user == null) throw UserNotFoundException();
       return await getAccount(user.uid);
     } catch (e, s) {
-      print('$e: $s');
+      log(e.toString(), stackTrace: s);
       rethrow;
     }
   }

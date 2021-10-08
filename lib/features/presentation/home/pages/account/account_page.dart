@@ -32,7 +32,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
         if(state is SuccessBlocState) return _onState(context, state.value as AccountEntity);
         if(state is ErrorBlocState) return _onError(context);
         return _onLoading(context);
-      }
+      },
     );
   }
 
@@ -41,7 +41,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
   );
 
   Widget _onLoading(BuildContext context) => const Center(
-    child: CircularProgressIndicator()
+    child: CircularProgressIndicator(),
   );
 
   Widget _onError(BuildContext context) => ListView(

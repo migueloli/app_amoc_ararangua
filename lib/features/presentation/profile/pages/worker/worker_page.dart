@@ -49,7 +49,7 @@ class _WorkerPageState extends State<WorkerPage> {
                       'Prestar serviço?',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
-                      )
+                      ),
                     ),
                     onChanged: (value) {
                       _bloc.saveProfileBloc.saveIsWorker(value: value);
@@ -76,7 +76,7 @@ class _WorkerPageState extends State<WorkerPage> {
                     if(state is ErrorBlocState) return _onError(context, state.message);
                     if(state is SuccessBlocState) return _onState(context, state.value as List<CategoryEntity>);
                     return _onLoading(context);
-                  }
+                  },
                 ),
               ],
             ),
@@ -84,7 +84,7 @@ class _WorkerPageState extends State<WorkerPage> {
         }
 
         return const Center(child: CircularProgressIndicator(),);
-      }
+      },
     );
   }
 
@@ -115,7 +115,7 @@ class _WorkerPageState extends State<WorkerPage> {
               ),
             ],
           ),
-        )
+        ),
       ).toList(),
     );
   }
