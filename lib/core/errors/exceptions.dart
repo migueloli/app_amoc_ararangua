@@ -66,8 +66,3 @@ class EmailAlreadyInUseException extends LoginException {
   @override
   List<Object> get props => [];
 }
-
-class UserNotSavedException extends CustomException {
-  @override
-  List<Object> get props => [];
-}

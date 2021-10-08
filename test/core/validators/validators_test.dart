@@ -354,4 +354,48 @@ void main() {
       );
     }
   );
+
+  group(
+    'validateCity',
+    () {
+      test(
+        'description invalid because length smaller than 3 (Te)',
+        () {
+          //Arrange
+          const description = 'Te';
+
+          //Act
+          final result = validateCity(description);
+
+          //Assert
+          expect(result, invalidShortCityMessage);
+        }
+      );
+
+      test(
+        'description invalid because value is null',
+        () {
+          //Act
+          final result = validateCity(null);
+
+          //Assert
+          expect(result, invalidShortCityMessage);
+        }
+      );
+
+      test(
+        'description valid',
+        () {
+          //Arrange
+          const description = 'Florianopolis';
+
+          //Act
+          final result = validateCity(description);
+
+          //Assert
+          expect(result, null);
+        }
+      );
+    }
+  );
 }

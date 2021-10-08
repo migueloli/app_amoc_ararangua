@@ -325,6 +325,23 @@ void main() {
           verifyNever(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password));
         }
       );
+
+      test(
+        'should throw an LoginException when user is null',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password))
+            .thenAnswer((_) async => userCredential);
+          when(() => userCredential.user).thenReturn(null);
+
+          //Act
+          final result = dataSource.createAccountWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(LoginException()));
+          verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).called(1);
+        }
+      );
     }
   );
 
@@ -478,6 +495,23 @@ void main() {
           //Arrange
           when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
             .thenThrow(Exception());
+
+          //Act
+          final result = dataSource.loginWithEmailAndPassword(email, password);
+
+          //Assert
+          expect(result, throwsA(LoginException()));
+          verify(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password)).called(1);
+        }
+      );
+
+      test(
+        'should throw an LoginException when user is null',
+        () async {
+          //Arrange
+          when(() => mockFirebaseAuth.signInWithEmailAndPassword(email: email, password: password))
+            .thenAnswer((_) async => userCredential);
+          when(() => userCredential.user).thenReturn(null);
 
           //Act
           final result = dataSource.loginWithEmailAndPassword(email, password);
@@ -761,6 +795,29 @@ void main() {
           when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
           when(() => mockFirebaseAuth.signInWithCredential(any()))
             .thenThrow(Exception());
+
+          //Act
+          final result = dataSource.loginWithGoogle();
+
+          //Assert
+          expect(result, throwsA(LoginException()));
+        }
+      );
+
+      test(
+        'should throw an LoginException when user is null',
+        () async {
+          //Arrange
+          final mockGoogleSignInAccount = MockGoogleSignInAccount();
+          final mockGoogleSignInAuthentication = MockGoogleSignInAuthentication();
+          when(mockGoogleSignIn.signIn).thenAnswer((_) async => mockGoogleSignInAccount);
+          when(() => mockGoogleSignInAccount.authentication).thenAnswer((_) async => mockGoogleSignInAuthentication);
+          when(() => mockGoogleSignInAuthentication.idToken).thenAnswer((_) => 'idToken');
+          when(() => mockGoogleSignInAuthentication.accessToken).thenAnswer((_) => 'accessToken');
+          when(mockGoogleSignIn.isSignedIn).thenAnswer((_) async => false);
+          when(() => mockFirebaseAuth.signInWithCredential(any()))
+            .thenAnswer((_) async => userCredential);
+          when(() => userCredential.user).thenReturn(null);
 
           //Act
           final result = dataSource.loginWithGoogle();

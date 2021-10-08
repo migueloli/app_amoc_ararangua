@@ -71,8 +71,3 @@ class EmailAlreadyInUseFailure extends LoginFailure {
   @override
   List<Object> get props => [];
 }
-
-class UserNotSavedFailure extends Failure {
-  @override
-  List<Object> get props => [];
-}

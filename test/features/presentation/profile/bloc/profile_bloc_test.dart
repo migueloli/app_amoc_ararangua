@@ -93,7 +93,6 @@ void main() {
     blocTest(
       'should expect [LoadingBlocState]',
       build: () => ProfileBloc(repository, saveUseCase),
-      setUp: () => when(() => saveUseCase.add(event)).thenAnswer((_) async => Left(UserNotSavedFailure())),
       act: (ProfileBloc bloc) => bloc.add(event),
       expect: () => [BlocState.loading()],
     );

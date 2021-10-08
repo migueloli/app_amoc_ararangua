@@ -41,8 +41,6 @@ class SaveProfileBloc extends Bloc<ProfileEventBloc, BlocState> {
 
   String _prepareGetFailure(Failure failure) {
     switch(failure.runtimeType) {
-      case UserNotSavedFailure:
-        return userNotSavedMessage;
       case NetworkFailure:
         return networkFailureMessage;
       case ServerFailure:
@@ -52,8 +50,7 @@ class SaveProfileBloc extends Bloc<ProfileEventBloc, BlocState> {
     return genericFailureMessage;
   }
 
-  static const userNotSavedMessage = 'Ocorreu um erro ao salvar os dados do perfil.';
   static const networkFailureMessage = 'Não foi possível conectar a internet, verifique as conexões do aparelho.';
-  static const serverFailureMessage = 'Ocorreu um erro na comunicação com o servidor, tente novamente.';
+  static const serverFailureMessage = 'Ocorreu um erro ao salvar os dados do perfil.';
   static const genericFailureMessage = 'Ocorreu um erro, tente novamente.';
 }

@@ -10,6 +10,7 @@ const invalidShortNeighborhoodMessage = 'Bairro precisa ter mais de 3 caracteres
 const invalidEmailMessage = 'E-mail inválido';
 const invalidShortPasswordMessage = 'Senha precisa ter 6 ou mais caracteres.';
 const invalidShortDescriptionMessage = 'Descrição precisa ter mais de 20 caracteres.';
+const invalidShortCityMessage = 'Cidade precisa ter mais de 3 caracteres.';
 
 String? validateName(String? value) => value != null && value.trim().length >= 3
     ? null
@@ -51,4 +52,4 @@ String? validateDescription(String? value) => value != null && value.trim().leng
 
 String? validateCity(String? value) => value != null && value.trim().length > 3
     ? null
-    : "Cidade precisa ter mais de 3 caracteres.";
+    : invalidShortCityMessage;
