@@ -2,7 +2,7 @@ import '../models/account_model.dart';
 
 abstract class IAccountsRemoteDataSource {
 
-  Future<List<AccountModel>> getListOfAccounts();
+  Future<List<AccountModel>> getListOfAccounts({bool? isWorker = true, int? status = 1});
 
   Future<AccountModel> saveAccount(AccountModel account);
 

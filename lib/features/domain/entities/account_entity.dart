@@ -57,23 +57,63 @@ class AccountEntity extends Equatable {
   );
 
   @override
-  List<Object?> get props => [
-    id,
-    name,
-    document,
-    email,
-    phone,
-    zip,
-    address,
-    number,
-    neighborhood,
-    city,
-    state,
-    isWorker,
-    description,
-    status,
-    cause,
-    categoryId,
-  ];
+  List<Object> get props {
+    return [
+      id,
+      name,
+      document,
+      email,
+      phone,
+      zip,
+      address,
+      number,
+      neighborhood,
+      city,
+      state,
+      isWorker,
+      description,
+      status,
+      cause,
+      categoryId,
+    ];
+  }
 
+
+  AccountEntity copyWith({
+    String? id,
+    String? name,
+    String? document,
+    String? email,
+    String? phone,
+    String? zip,
+    String? address,
+    String? number,
+    String? neighborhood,
+    String? city,
+    String? state,
+    bool? isWorker,
+    String? description,
+    int? status,
+    String? cause,
+    String? categoryId,
+  }) {
+    return AccountEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      document: document ?? this.document,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      zip: zip ?? this.zip,
+      address: address ?? this.address,
+      number: number ?? this.number,
+      neighborhood: neighborhood ?? this.neighborhood,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      isWorker: isWorker ?? this.isWorker,
+      description: description ?? this.description,
+      status: status ?? this.status,
+      cause: cause ?? this.cause,
+      categoryId: categoryId ?? this.categoryId,
+    );
+  }
 }

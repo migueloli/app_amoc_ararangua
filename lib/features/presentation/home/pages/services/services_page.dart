@@ -5,9 +5,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../../../../core/states/bloc_state.dart';
 import '../../../../domain/entities/account_entity.dart';
 import '../../../widgets/error_message_widget.dart';
+import '../../../widgets/worker_list_tile_widget.dart';
 import 'bloc/events/services_bloc_event.dart';
 import 'bloc/services_bloc.dart';
-import 'widgets/worker_list_tile_widget.dart';
 
 class ServicesPage extends StatefulWidget {
   @override

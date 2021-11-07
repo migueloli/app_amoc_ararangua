@@ -18,10 +18,27 @@ class CategoriesRemoteDataSourceImplementation extends ICategoriesRemoteDataSour
 
       final categoriesList = <CategoryModel>[];
       for(final doc in response.docs) {
-        categoriesList.add(CategoryModel.fromJson(doc.data()));
+        categoriesList.add(CategoryModel.fromJson(doc.data(), id: doc.id));
       }
 
       return categoriesList;
+    } catch(e, s) {
+      log(e.toString(), stackTrace: s);
+
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<CategoryModel> saveCategory(CategoryModel category) async {
+    try {
+      final response = await store.collection('categories').doc(category.id).get();
+      if(response.exists) {
+        await response.reference.update(category.toJson());
+      } else {
+        await store.collection('categories').add(category.toJson());
+      }
+      return category;
     } catch(e, s) {
       log(e.toString(), stackTrace: s);
 

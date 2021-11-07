@@ -9,6 +9,7 @@ import '../../data/datasources/accounts_remote_datasource_implementation.dart';
 import '../../data/datasources/categories_remote_datasource_implementation.dart';
 import '../../data/repositories/accounts_repository_implementation.dart';
 import '../../data/repositories/categories_repository_implementation.dart';
+import '../admin/admin_module.dart';
 import '../create_account/create_account_module.dart';
 import '../home/home_module.dart';
 import '../login/login_module.dart';
@@ -36,5 +37,6 @@ class AppModule extends Module {
     ModuleRoute("${Modular.initialRoute}login", module: LoginModule()),
     ModuleRoute("${Modular.initialRoute}create-account", module: CreateAccountModule()),
     ModuleRoute("${Modular.initialRoute}profile", module: ProfileModule()),
+    ModuleRoute("${Modular.initialRoute}admin", module: AdminModule()),
   ];
 }

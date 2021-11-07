@@ -1,8 +1,8 @@
-import 'package:app_amoc_ararangua/features/domain/repositories/account_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/states/bloc_state.dart';
+import '../../../domain/repositories/account_repository.dart';
 import 'events/login_bloc_event.dart';
 
 class LoginBloc extends Bloc<LoginBlocEvent, BlocState> {

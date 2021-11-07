@@ -16,12 +16,17 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
   AccountsRemoteDataSourceImplementation(this.store, this.auth, this.googleSignIn);
 
   @override
-  Future<List<AccountModel>> getListOfAccounts() async {
+  Future<List<AccountModel>> getListOfAccounts({bool? isWorker = true, int? status = 1}) async {
     try {
-      final response = await store.collection('users')
-          .where('is_worker', isEqualTo: true)
-          .where('status', isEqualTo: 1)
-          .get();
+      var query = store.collection('users').orderBy('id');
+      if(isWorker != null) {
+        query = query.where('is_worker', isEqualTo: isWorker);
+      }
+      if(status != null) {
+        query = query.where('status', isEqualTo: status);
+      }
+
+      final response = await query.get();
       final accountList = <AccountModel>[];
 
       for(final doc in response.docs) {

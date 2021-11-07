@@ -5,6 +5,7 @@ import '../../../core/network/network_info.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/categories_repository.dart';
 import '../datasources/categories_remote_datasource.dart';
+import '../models/category_model.dart';
 
 class CategoriesRepositoryImplementation implements ICategoriesRepository {
 
@@ -20,6 +21,19 @@ class CategoriesRepositoryImplementation implements ICategoriesRepository {
       if(!networkConnected) return Left(NetworkFailure());
 
       final result = await datasource.getListOfCategories();
+      return Right(result);
+    } on Exception {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> saveCategory(CategoryEntity entity) async {
+    try {
+      final networkConnected = await networkInfo.isConnected;
+      if(!networkConnected) return Left(NetworkFailure());
+
+      final result = await datasource.saveCategory(CategoryModel(id: entity.id, description: entity.description));
       return Right(result);
     } on Exception {
       return Left(ServerFailure());

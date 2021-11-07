@@ -16,12 +16,12 @@ class AccountsRepositoryImplementation implements IAccountsRepository {
   AccountsRepositoryImplementation(this.datasource, this.networkInfo);
 
   @override
-  Future<Either<Failure, List<AccountEntity>>> getListOfAccounts() async {
+  Future<Either<Failure, List<AccountEntity>>> getListOfAccounts({bool? isWorker = true, int? status = 1}) async {
     try {
       final networkConnected = await networkInfo.isConnected;
       if(!networkConnected) return Left(NetworkFailure());
 
-      final result = await datasource.getListOfAccounts();
+      final result = await datasource.getListOfAccounts(isWorker: isWorker, status: status);
       return Right(result);
     } on Exception {
       return Left(ServerFailure());

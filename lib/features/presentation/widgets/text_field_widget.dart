@@ -16,22 +16,26 @@ class TextFieldWidget extends StatelessWidget {
   final TextCapitalization capitalization;
   final TextInputAction textInputAction;
   final String value;
+  final TextEditingController? controller;
+  final bool enabled;
 
   const TextFieldWidget({
     Key? key,
-    this.label = "",
     required this.icon,
-    this.inputType = TextInputType.text,
-    this.minLines = 1,
-    this.maxLines = 1,
     this.inputFormatters,
     this.onSaved,
     this.validator,
     this.onChanged,
+    this.controller,
+    this.label = "",
+    this.inputType = TextInputType.text,
+    this.minLines = 1,
+    this.maxLines = 1,
     this.obscureText = false,
     this.capitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
     this.value = "",
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -39,9 +43,11 @@ class TextFieldWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: TextFormField(
+        controller: controller,
         obscureText: obscureText,
         keyboardType: inputType,
         inputFormatters: inputFormatters,
+        enabled: enabled,
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,

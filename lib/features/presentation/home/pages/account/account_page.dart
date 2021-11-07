@@ -109,6 +109,12 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
   List<Widget> _connectedItems(TextStyle textStyle) => [
     const Divider(),
     MenuButtonWidget(
+      label: 'Admin',
+      icon: Icons.admin_panel_settings_outlined,
+      onPressed: () => Modular.to.pushNamed('/admin/'),
+    ),
+    const Divider(),
+    MenuButtonWidget(
       label: 'Perfil',
       icon: Icons.person,
       onPressed: () => Modular.to.pushNamed('/profile/'),
