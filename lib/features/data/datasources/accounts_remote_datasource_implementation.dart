@@ -18,15 +18,16 @@ class AccountsRemoteDataSourceImplementation extends IAccountsRemoteDataSource {
   @override
   Future<List<AccountModel>> getListOfAccounts({bool? isWorker = true, int? status = 1}) async {
     try {
-      var query = store.collection('users').orderBy('id');
+      final collection = store.collection('users');
+      Query<Map<String, dynamic>>? query;
       if(isWorker != null) {
-        query = query.where('is_worker', isEqualTo: isWorker);
+        query = collection.where('is_worker', isEqualTo: isWorker);
       }
       if(status != null) {
-        query = query.where('status', isEqualTo: status);
+        query = collection.where('status', isEqualTo: status);
       }
 
-      final response = await query.get();
+      final response = await (query != null ? query.get() : collection.get());
       final accountList = <AccountModel>[];
 
       for(final doc in response.docs) {

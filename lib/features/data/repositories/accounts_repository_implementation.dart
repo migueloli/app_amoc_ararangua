@@ -51,6 +51,7 @@ class AccountsRepositoryImplementation implements IAccountsRepository {
         status: account.status,
         cause: account.cause,
         categoryId: account.categoryId,
+        isAdmin: account.isAdmin,
       );
 
       final result = await datasource.saveAccount(accountModel);

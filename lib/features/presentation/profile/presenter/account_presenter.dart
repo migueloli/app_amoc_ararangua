@@ -19,11 +19,13 @@ class AccountPresenter extends Equatable {
   String categoryId;
   final int status;
   final String cause;
+  final bool isAdmin;
 
   AccountPresenter({
     required this.id,
     required this.status,
     required this.cause,
+    required this.isAdmin,
     this.name = '',
     this.document = '',
     this.email = '',
@@ -55,5 +57,6 @@ class AccountPresenter extends Equatable {
     isWorker,
     description,
     categoryId,
+    isAdmin,
   ];
 }

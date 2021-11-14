@@ -19,5 +19,6 @@ extension AccountPresenterMapper on AccountPresenter {
     status: status,
     cause: cause,
     categoryId: categoryId,
+    isAdmin: isAdmin,
   );
 }

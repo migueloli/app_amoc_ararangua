@@ -22,6 +22,7 @@ class AccountModel extends AccountEntity {
     required int status,
     required String cause,
     required String categoryId,
+    required bool isAdmin,
   }): super(
     id: id,
     name: name,
@@ -39,6 +40,7 @@ class AccountModel extends AccountEntity {
     status: status,
     cause: cause,
     categoryId: categoryId,
+    isAdmin: isAdmin,
   );
 
   factory AccountModel.fromJson(Map<String, dynamic> json, {String? id}) => AccountModel(
@@ -58,6 +60,7 @@ class AccountModel extends AccountEntity {
     status: tryCast<int>(json['status'], 1),
     cause: tryCast<String>(json['cause'], ''),
     categoryId: tryCast<String>(json['categoryId'], ''),
+    isAdmin: tryCast<bool>(json['isAdmin'], false),
   );
 
   factory AccountModel.fromUser(User user) => AccountModel(
@@ -77,6 +80,7 @@ class AccountModel extends AccountEntity {
     status: 0,
     cause: '',
     categoryId: '',
+    isAdmin: false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -96,5 +100,6 @@ class AccountModel extends AccountEntity {
     'status': status,
     'cause': cause,
     'categoryId': categoryId,
+    'is_admin': isAdmin,
   };
 }

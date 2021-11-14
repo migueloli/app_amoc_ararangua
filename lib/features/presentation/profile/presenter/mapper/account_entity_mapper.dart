@@ -19,5 +19,6 @@ extension AccountEntityMapper on AccountEntity {
     isWorker: isWorker,
     description: description,
     categoryId: categoryId,
+    isAdmin: isAdmin,
   );
 }

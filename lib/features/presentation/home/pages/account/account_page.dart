@@ -74,6 +74,7 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
     if(entity == null) {
       widgets.addAll(_disconnectedItems(textStyle));
     } else {
+      if(entity.isAdmin) widgets.addAll(createAdmin());
       widgets.addAll(_connectedItems(textStyle));
     }
 
@@ -109,12 +110,6 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
   List<Widget> _connectedItems(TextStyle textStyle) => [
     const Divider(),
     MenuButtonWidget(
-      label: 'Admin',
-      icon: Icons.admin_panel_settings_outlined,
-      onPressed: () => Modular.to.pushNamed('/admin/'),
-    ),
-    const Divider(),
-    MenuButtonWidget(
       label: 'Perfil',
       icon: Icons.person,
       onPressed: () => Modular.to.pushNamed('/profile/'),
@@ -124,6 +119,15 @@ class _AccountPageState extends ModularState<AccountPage, AccountBloc> {
       label: 'Sair',
       icon: Icons.logout,
       onPressed: () {},
+    ),
+  ];
+
+  List<Widget> createAdmin() => [
+    const Divider(),
+    MenuButtonWidget(
+      label: 'Admin',
+      icon: Icons.admin_panel_settings_outlined,
+      onPressed: () => Modular.to.pushNamed('/admin/'),
     ),
   ];
 }
